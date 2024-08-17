@@ -1,5 +1,4 @@
 from venv import logger
-from joblib import Logger
 from Rag.retriever.query_translation import (
     Retriever,
     MultiQuery,

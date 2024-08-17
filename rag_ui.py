@@ -1,7 +1,6 @@
 from fastapi import UploadFile
 import gradio as gr
 from Rag.schemas.schemas import ModeEnum, Question, RetrieverSchema
-import requests
 from pydantic import BaseModel
 import Rag.routers.api as api
 
