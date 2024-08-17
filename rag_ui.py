@@ -1,8 +1,10 @@
-from fastapi import UploadFile
+from fastapi import FastAPI, UploadFile
 import gradio as gr
+from sqlalchemy import FromGrouping
 from Rag.schemas.schemas import ModeEnum, Question, RetrieverSchema
 from pydantic import BaseModel
 import Rag.routers.api as api
+import uvicorn
 
 
 class AskRequest(BaseModel):
@@ -80,5 +82,6 @@ def create_app():
 
 
 # Launch the app
-ui_app = create_app()
-ui_app.launch(server_port=1234, share=True)  # Set share=True to create a public link
+ui_app = FastAPI()
+# ui_app.launch(server_port=1234, share=True)  # Set share=True to create a public link
+ui_app = gr.mount_gradio_app(ui_app, create_app(), path="/gradio")
