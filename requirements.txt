@@ -10,3 +10,4 @@ langchainhub
 langchain_groq
 fastembed   
 PyMuPDF
+gradio
