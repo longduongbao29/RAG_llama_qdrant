@@ -48,7 +48,7 @@ async def ask_question(history, question, mode):
     answer = response["output"]
     # Append the new question and answer to the chat history
     history.append((question, answer))
-    return history
+    return history, ""
 
 
 def clear_chat(history):
@@ -78,7 +78,7 @@ def create_app():
                 send_button.click(
                     ask_question,
                     inputs=[chatbot, question_input, mode_input],
-                    outputs=chatbot,
+                    outputs=[chatbot, question_input],
                 )
                 clear_button.click(clear_chat, inputs=chatbot, outputs=chatbot)
             with gr.Column(scale=1):

@@ -32,7 +32,7 @@ class Agent:
         # self.prompt = hub.pull("hwchase17/openai-functions-agent")
         self.agent = create_tool_calling_agent(self.llm, self.tools, agent_prompt)
         self.agent_executor = AgentExecutor(
-            agent=self.agent, tools=self.tools, verbose=True
+            agent=self.agent, tools=self.tools, verbose=False
         )
 
     def run(self, input):
