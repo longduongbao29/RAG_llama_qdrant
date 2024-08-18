@@ -4,7 +4,7 @@ from sqlalchemy import FromGrouping
 from Rag.schemas.schemas import ModeEnum, Question, RetrieverSchema
 from pydantic import BaseModel
 import Rag.routers.api as api
-from io import BytesIO
+import re
 
 
 class AskRequest(BaseModel):
@@ -16,8 +16,7 @@ class AskRequest(BaseModel):
 async def upload_file(file):
     if file is not None:
         # Convert NamedString to BytesIO for file-like behavior
-        print(file)
-        file_name = file.name.split(r"\\|\/")[-1]
+        file_name = re.split(r"\\|\/", file.name)[-1]
         with open(file, "rb") as f:
             response = await api.upload_to_database(
                 file=UploadFile(file=f, filename=file_name)
