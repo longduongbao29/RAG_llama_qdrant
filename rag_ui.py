@@ -1,12 +1,12 @@
-from turtle import width
 from fastapi import FastAPI, UploadFile
 import gradio as gr
-from sqlalchemy import FromGrouping
 from Rag.schemas.schemas import ModeEnum, Question, RetrieverSchema
 from pydantic import BaseModel
 import Rag.routers.api as api
 import re
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+
 
 class AskRequest(BaseModel):
     question: Question
@@ -60,12 +60,16 @@ def clear_chat(history):
 def create_app():
     with gr.Blocks() as demo:
         with gr.Row():
-            with gr.Column(scale=6, min_width=800):
+            with gr.Column(scale=5, min_width=800):
                 gr.Markdown("## Chatbot")
                 chatbot = gr.Chatbot(label="Chat Interface")
                 with gr.Row():
-                    question_input = gr.Textbox(label="Ask a question", scale=5)
-                    send_button = gr.Button("🚀", scale=1, elem_id="send_button")
+                    question_input = gr.Textbox(label="Ask a question", scale=6)
+                    send_button = gr.Button(
+                        "🚀",
+                        scale=1,
+                        elem_id="send_button",
+                    )
                 mode_input = gr.Dropdown(
                     label="Select Mode",
                     choices=[mode.value for mode in ModeEnum],
@@ -81,48 +85,43 @@ def create_app():
                     outputs=[chatbot, question_input],
                 )
                 clear_button.click(clear_chat, inputs=chatbot, outputs=chatbot)
-            with gr.Column(scale=3):
+            with gr.Column(scale=1):
                 gr.Markdown("## Upload Document")
                 file_input = gr.File(
                     label="Upload your document", file_types=[".pdf", ".txt", ".docx"]
                 )
                 upload_button = gr.Button("⬆️ Upload ⬆️")
-                upload_output = gr.Textbox(
-                    label="Upload Status", elem_id="upload_status"
-                )
+                upload_output = gr.Textbox(label="Upload Status")
                 upload_button.click(
                     upload_file, inputs=file_input, outputs=upload_output
                 )
             with gr.Row():
                 # Tạo văn bản dọc "Created by longduongbao29"
-                gr.Markdown("🌟Created by longduongbao29🌟", elem_id="created_by")
-
-        demo.css = """
-        #send_button {
-            font-size: 40px;
-        }
-        #upload_status {
-            margin-bottom: 20px;
-        }
-        #created_by{
-            font-size = 20px;
-            position: absolute; 
-            bottom: 0; 
-            right: 0;
-        }
-        """
+                gr.Markdown(
+                    """
+                <div style='font-size = 20px;position: absolute; bottom: 0; right: 0;'>
+                    🌟Created by longduongbao29🌟
+                </div>
+                """
+                )
+    demo.css = """
+    #send_button {
+        font-size: 40px;
+    }
+    """
     return demo
 
 
 # Launch the app
 # ui_app = create_app()
 # ui_app.launch(server_port=1234, share=True)  # Set share=True to create a public link
-ui_app = FastAPI()
+ui_app = FastAPI(title="RAG Chatbot")
+favicon_path = "static/chatbot.ico"
+ui_app.mount("/static", StaticFiles(directory="static"), name="static")
 
-favicon_path = "chatbot.ico"
 @ui_app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     return FileResponse(favicon_path)
 
 
-ui_app = gr.mount_gradio_app(ui_app, create_app(), path="/chat")
+ui_app = gr.mount_gradio_app(ui_app, create_app(), path="/")
