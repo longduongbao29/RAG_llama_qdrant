@@ -6,7 +6,7 @@ from Rag.schemas.schemas import ModeEnum, Question, RetrieverSchema
 from pydantic import BaseModel
 import Rag.routers.api as api
 import re
-
+from fastapi.responses import FileResponse
 
 class AskRequest(BaseModel):
     question: Question
@@ -95,22 +95,22 @@ def create_app():
                 )
             with gr.Row():
                 # Tạo văn bản dọc "Created by longduongbao29"
-                gr.Markdown(
-                    """
-                    <div style='font-size = 20px;position: absolute; bottom: 0; right: 0;'>
-                        🌟Created by longduongbao29🌟
-                    </div>
-                    """
-                )
+                gr.Markdown("🌟Created by longduongbao29🌟", elem_id="created_by")
 
-    demo.css = """
-    #send_button {
-        font-size: 40px;
-    }
-    #upload_status {
-        margin-bottom: 20px;
-    }
-    """
+        demo.css = """
+        #send_button {
+            font-size: 40px;
+        }
+        #upload_status {
+            margin-bottom: 20px;
+        }
+        #created_by{
+            font-size = 20px;
+            position: absolute; 
+            bottom: 0; 
+            right: 0;
+        }
+        """
     return demo
 
 
@@ -118,4 +118,11 @@ def create_app():
 # ui_app = create_app()
 # ui_app.launch(server_port=1234, share=True)  # Set share=True to create a public link
 ui_app = FastAPI()
+
+favicon_path = "chatbot.ico"
+@ui_app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse(favicon_path)
+
+
 ui_app = gr.mount_gradio_app(ui_app, create_app(), path="/chat")
