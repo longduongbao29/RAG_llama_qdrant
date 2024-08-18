@@ -45,7 +45,7 @@ def retriever(question: Question, mode: RetrieverSchema):
 
 
 @router.post("/ask")
-async def model_predict(question: Question, retrieval_schema: RetrieverSchema):
+async def model_predict(question: Question, retrieval_schema: RetrieverSchema, history):
     """
     This function generates an answer to a given question using an Agent including search_tool and retriever_tool.
 
@@ -61,7 +61,7 @@ async def model_predict(question: Question, retrieval_schema: RetrieverSchema):
         retriever_ = get_retriever(retrieval_schema.mode)
         agent.retriever_tool.update_description(vars.qdrant_client.client)
         agent.retriever = retriever_
-        answer = agent.run({"input": question})
+        answer = agent.run({"input": question, "chat_history": history})
     except Exception as e:
         return {"message": f"Failed to generate answer: {str(e)}"}
     return answer

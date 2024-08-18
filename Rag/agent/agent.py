@@ -10,9 +10,12 @@ agent_prompt = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            "You are a helpful assistant. Use search tool or retrieval tool to answer the given question.",
+            """You are a helpful assistant. First, try to answer the simple question base on chat history.
+            Chat history: {chat_history}
+            If you don't have any information, use search tool or retrieval tool and chat history to answer the given question. 
+            If you don't know the answer, just say that you don't know.
+            """,
         ),
-        ("placeholder", "{chat_history}"),
         ("human", "{input}"),
         ("placeholder", "{agent_scratchpad}"),
     ]
@@ -43,4 +46,3 @@ class Agent:
         str: The result of executing the agent. This could be the output of a tool, a final answer, or an error message.
         """
         return self.agent_executor.invoke(input)
-    

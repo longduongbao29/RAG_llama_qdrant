@@ -27,12 +27,24 @@ async def upload_file(file):
 
 
 # Function to handle question and answer
+def format_history(history):
+    format_history = []
+    for pair in history:
+        assistant = ("human", pair[0])
+        human = ("system", pair[1])
+        format_history.append(assistant)
+        format_history.append(human)
+    return format_history
+
+
 async def ask_question(history, question, mode):
 
     response = await api.model_predict(
         question=Question(question=question),
         retrieval_schema=RetrieverSchema(mode=mode),
+        history=format_history(history),
     )
+    print(response)
     answer = response["output"]
     # Append the new question and answer to the chat history
     history.append((question, answer))

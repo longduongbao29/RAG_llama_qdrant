@@ -1,6 +1,8 @@
 from langchain.prompts import ChatPromptTemplate, FewShotChatMessagePromptTemplate
 
-default_template = """Answer the following question based on this context:
+default_template = """You are an assistant for question-answering tasks. \
+Use the following pieces of retrieved context and history chat to answer the question. \
+If you don't know the answer, just say that you don't know. 
 
 {context}
 
