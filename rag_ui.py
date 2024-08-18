@@ -4,7 +4,7 @@ from sqlalchemy import FromGrouping
 from Rag.schemas.schemas import ModeEnum, Question, RetrieverSchema
 from pydantic import BaseModel
 import Rag.routers.api as api
-import uvicorn
+from io import BytesIO
 
 
 class AskRequest(BaseModel):
@@ -16,13 +16,15 @@ class AskRequest(BaseModel):
 async def upload_file(file):
     if file is not None:
         # Convert NamedString to BytesIO for file-like behavior
-        file_name = file.name.split("\\")[-1]
+        print(file)
+        file_name = file.name.split(r"\\|\/")[-1]
         with open(file, "rb") as f:
             response = await api.upload_to_database(
                 file=UploadFile(file=f, filename=file_name)
             )
             return response
-    return {"error": "No file uploaded"}
+
+    # return {"error": "No file uploaded"}
 
 
 # Function to handle question and answer
@@ -82,6 +84,7 @@ def create_app():
 
 
 # Launch the app
+# ui_app = create_app()
+# ui_app.launch(server_port=1234, share=False)  # Set share=True to create a public link
 ui_app = FastAPI()
-# ui_app.launch(server_port=1234, share=True)  # Set share=True to create a public link
-ui_app = gr.mount_gradio_app(ui_app, create_app(), path="/gradio")
+ui_app = gr.mount_gradio_app(ui_app, create_app(), path="/chat")
