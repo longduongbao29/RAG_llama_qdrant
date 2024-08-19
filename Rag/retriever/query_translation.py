@@ -8,9 +8,6 @@ from langchain.prompts import ChatPromptTemplate
 from typing import List
 from logs.loging import logger
 
-1
-
-
 class Retriever(BaseRetriever):
     model: BaseLanguageModel = None
     generate_prompt: ChatPromptTemplate = templates.default_prompt

@@ -59,9 +59,10 @@ async def model_predict(question: Question, retrieval_schema: RetrieverSchema, h
     try:
         question = question.question
         retriever_ = get_retriever(retrieval_schema.mode)
-        agent.retriever_tool.update_description(vars.qdrant_client.client)
+        agent.update_description_retriever_tool(vars.qdrant_client.client)
         agent.retriever = retriever_
         answer = agent.run({"input": question, "chat_history": history})
+        logger.output({"question": question, "answer": answer})
     except Exception as e:
         return {"message": f"Failed to generate answer: {str(e)}"}
     return answer
@@ -90,7 +91,6 @@ async def upload_to_database(file: UploadFile = File(...)):
             text_reader.readpdf()
         topic = text_reader.get_topics(vars.llm)
         vars.qdrant_client.upload_from_text(text_reader, topic)
-
     except Exception as e:
         return {"message": f"Failed to process file: {str(e)}"}
     return {"message": "File uploaded and processed successfully", "topic": topic}

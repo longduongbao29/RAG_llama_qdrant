@@ -119,6 +119,7 @@ ui_app = FastAPI(title="RAG Chatbot")
 favicon_path = "static/chatbot.ico"
 ui_app.mount("/static", StaticFiles(directory="static"), name="static")
 
+
 @ui_app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     return FileResponse(favicon_path)

@@ -36,29 +36,17 @@ def get_retriever(mode: ModeEnum) -> Retriever:
     return retriever_
 
 
-class Generate(BaseTool):
+class Generate:
     retriever: Retriever = None
     llm: BaseLanguageModel = None
     prompt: ChatPromptTemplate = None
     chain: RunnableSerializable[Dict, str] = None
 
     def __init__(self, llm, retriever):
-        super().__init__(
-            name="Retrieval Tool",
-            description="",
-        )
         self.retriever = retriever
         self.llm = llm
         self.prompt = retriever.generate_prompt
         self.chain = self.prompt | self.llm | StrOutputParser()
-
-    def update_description(self, client):
-        collections = client.get_collections().collections
-        collection_names = [collection.name for collection in collections]
-        self.description = "Documents for following topics: " + ", ".join(
-            collection_names
-        )
-        # logger.output({"description": self.description})
 
     def _run(self, question: str):
         response = None
