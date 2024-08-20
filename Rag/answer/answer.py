@@ -18,24 +18,6 @@ from langchain_core.runnables.base import RunnableSerializable
 from typing import Dict
 
 
-def get_retriever(mode: ModeEnum) -> Retriever:
-    """Get retriever from mode"""
-    retriever_ = Retriever(vars.llm)
-    if mode == ModeEnum.multi_query:
-        retriever_ = MultiQuery(vars.llm)
-    elif mode == ModeEnum.rag_fusion:
-        retriever_ = RAGFusion(vars.llm)
-    elif mode == ModeEnum.recursive_decomposition:
-        retriever_ = QueryDecompostion(vars.llm, mode="recursive")
-    elif mode == ModeEnum.individual_decomposition:
-        retriever_ = QueryDecompostion(vars.llm, mode="individual")
-    elif mode == ModeEnum.step_back:
-        retriever_ = StepBack(vars.llm)
-    elif mode == ModeEnum.hyde:
-        retriever_ = HyDE(vars.llm)
-    return retriever_
-
-
 class Generate:
     retriever: Retriever = None
     llm: BaseLanguageModel = None

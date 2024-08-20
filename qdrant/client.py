@@ -1,16 +1,19 @@
+from typing import List
 import qdrant_client
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client.http.models import Distance, VectorParams
 from Rag.extract_documents.text_reader import TextReader
 from langchain_text_splitters import CharacterTextSplitter
 from Rag.config.config import Config
-
+from logs.loging import logger
 
 config = Config()
 
 
 class Qdrant_Client:
     """Qdrant client for vector databse"""
+
+    vectorstores: List[QdrantVectorStore] = []
 
     def __init__(self, embeddings) -> None:
 
@@ -22,7 +25,6 @@ class Qdrant_Client:
             api_key=self.api_key,
         )
         self.text_splitter = CharacterTextSplitter(chunk_size=100, chunk_overlap=0)
-        self.vectorstores = []
         try:
             collections = self.client.get_collections().collections
             for collection in collections:
@@ -63,7 +65,7 @@ class Qdrant_Client:
 
         return new_vtstr
 
-    def retriever(self, text: str, k=3):
+    def retriever(self, text: str, k=5):
         """Get k relevant documents to given input text
 
         Args:
@@ -75,12 +77,15 @@ class Qdrant_Client:
         """
         if len(text) == 0:
             return []
-        docs = []
+        docs_with_scores = []
         for vt in self.vectorstores:
-            docs_ = vt.similarity_search(query=text, k=k)
-            for doc in docs_:
-                docs.append(doc)
-        return docs
+            docs_with_scores.extend(vt.similarity_search_with_score(query=text, k=k))
+        sorted_docs = [
+            doc
+            for doc, score in sorted(docs_with_scores, key=lambda x: x[1], reverse=True)
+        ]
+        logger.output(sorted_docs)
+        return sorted_docs[:k]
 
     def upload_from_text(self, text: TextReader, topic: str):
         """From input text, chunking and saving to Qdrant collection

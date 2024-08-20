@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel, Field
 from enum import Enum
 
@@ -10,6 +11,7 @@ class ModeEnum(str, Enum):
     individual_decomposition = "individual-decomposition"
     step_back = "step-back"
     hyde = "hyde"
+    bm25 = "bm25"
 
 
 class Question(BaseModel):
@@ -17,7 +19,7 @@ class Question(BaseModel):
 
 
 class RetrieverSchema(BaseModel):
-    mode: ModeEnum
+    mode: List[ModeEnum]
 
 
 class AskRequest(BaseModel):

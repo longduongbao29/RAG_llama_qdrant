@@ -1,6 +1,11 @@
 from fastapi.responses import HTMLResponse
+from Rag.agent import agent
 from Rag.schemas.schemas import RetrieverSchema, Question
-from Rag.answer.answer import get_retriever
+from Rag.retriever.query_translation import (
+    MultipleRetriever,
+    get_retriever,
+    get_multiple_retriever,
+)
 from Rag.agent.agent import Agent
 from Rag.retriever.query_translation import Retriever
 from init import vars
@@ -10,9 +15,6 @@ from Rag.extract_documents.text_reader import TextReader
 from logs.loging import logger
 
 router = APIRouter()
-
-retriever = Retriever(vars.llm)
-agent = Agent(vars.llm, retriever)
 
 
 @router.get("/", response_class=HTMLResponse)
@@ -37,7 +39,10 @@ def retriever(question: Question, mode: RetrieverSchema):
     """
     try:
         question = question.question
-        retriever = get_retriever(mode.mode)
+        retriever = MultipleRetriever(
+            model=vars.llm, retriever_methods=get_multiple_retriever(mode.mode)
+        )
+
         docs = retriever.invoke(question)
     except Exception as e:
         return {"message": f"Failed to retrieve documents: {str(e)}"}
@@ -58,9 +63,12 @@ async def model_predict(question: Question, retrieval_schema: RetrieverSchema, h
     """
     try:
         question = question.question
-        retriever_ = get_retriever(retrieval_schema.mode)
+        retriever = MultipleRetriever(
+            model=vars.llm,
+            retriever_methods=get_multiple_retriever(retrieval_schema.mode),
+        )
+        agent = Agent(vars.llm, retriever)
         agent.update_description_retriever_tool(vars.qdrant_client.client)
-        agent.retriever = retriever_
         answer = agent.run({"input": question, "chat_history": history})
         logger.output({"question": question, "answer": answer})
     except Exception as e:

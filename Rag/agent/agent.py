@@ -2,11 +2,10 @@ from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain.agents import create_tool_calling_agent
 from langchain.agents import AgentExecutor
 from langchain.prompts import ChatPromptTemplate
-from langgraph.checkpoint.memory import MemorySaver
 from langchain.tools.retriever import create_retriever_tool
 from logs.loging import logger
 
-memory = MemorySaver()
+
 agent_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", "You are a helpful assistant."),
