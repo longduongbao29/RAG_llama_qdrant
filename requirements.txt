@@ -11,3 +11,4 @@ langchainhub
 langchain_groq
 PyMuPDF
 gradio
+rank_bm25

@@ -156,7 +156,7 @@ class RAGFusion(Retriever):
         """
         queries = self.generate_queries(question)
         docs = vars.qdrant_client.retriever_map(queries)
-        self.docs = reciprocal_rank_fusion(docs)
+        self.docs = [doc for doc, score in reciprocal_rank_fusion(docs)]
         return self.docs[: self.k]
 
     def get_input_vars(self, question: str):
@@ -386,6 +386,6 @@ class MultipleRetriever(Retriever):
         else:
             for retriever in self.retriever_methods:
                 docs_.append(retriever._get_relevant_documents(question))
-            docs_ = reciprocal_rank_fusion(docs_)[:6]
+            docs_ = [doc for doc, score in reciprocal_rank_fusion(docs_)][:5]
         self.docs = docs_
         return self.docs

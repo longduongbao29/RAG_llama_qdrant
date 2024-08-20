@@ -84,7 +84,6 @@ class Qdrant_Client:
             doc
             for doc, score in sorted(docs_with_scores, key=lambda x: x[1], reverse=True)
         ]
-        logger.output(sorted_docs)
         return sorted_docs[:k]
 
     def upload_from_text(self, text: TextReader, topic: str):
