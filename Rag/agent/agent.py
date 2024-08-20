@@ -8,7 +8,7 @@ from logs.loging import logger
 
 agent_prompt = ChatPromptTemplate.from_messages(
     [
-        ("system", "You are a helpful assistant."),
+        ("system", "You are a helpful assistant. Use 1 tool to answer question."),
         ("placeholder", "{chat_history}"),
         ("human", "{input}"),
         ("placeholder", "{agent_scratchpad}"),

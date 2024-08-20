@@ -8,6 +8,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from langchain_core.messages import AIMessage, HumanMessage
 
+
 class AskRequest(BaseModel):
     question: Question
     retrieval_schema: RetrieverSchema
@@ -77,6 +78,7 @@ def create_app():
                     label="Select Mode",
                     choices=[mode.value for mode in ModeEnum],
                     value="default",
+                    multiselect=True,
                 )
 
                 clear_button = gr.Button("❌Clear Chat")
