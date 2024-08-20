@@ -4,10 +4,10 @@ langchain
 langchain_community
 qdrant_client
 langchain_qdrant
+fastembed
 python-dotenv
 python-multipart
 langchainhub
 langchain_groq
-fastembed   
 PyMuPDF
 gradio

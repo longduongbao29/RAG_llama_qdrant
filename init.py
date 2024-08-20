@@ -13,7 +13,7 @@ class InitVariable:
         self.qdrant_client = Qdrant_Client(embeddings=self.embedding)
         self.llm = ChatGroq(
             api_key=config.groq_api_key,
-            model="llama-3.1-70b-versatile",
+            model="llama3-groq-70b-8192-tool-use-preview",
             temperature=0.1,
         )
 

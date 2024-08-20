@@ -2,18 +2,15 @@ from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain.agents import create_tool_calling_agent
 from langchain.agents import AgentExecutor
 from langchain.prompts import ChatPromptTemplate
-from Rag.answer.answer import Generate
+from langgraph.checkpoint.memory import MemorySaver
 from langchain.tools.retriever import create_retriever_tool
 from logs.loging import logger
 
+memory = MemorySaver()
 agent_prompt = ChatPromptTemplate.from_messages(
     [
-        (
-            "system",
-            """You are a helpful assistant. First, try to answer the simple question base on chat history. If you can't answer, use tools. 
-            Chat history: {chat_history}
-            """,
-        ),
+        ("system", "You are a helpful assistant."),
+        ("placeholder", "{chat_history}"),
         ("human", "{input}"),
         ("placeholder", "{agent_scratchpad}"),
     ]

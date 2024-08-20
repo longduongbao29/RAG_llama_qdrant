@@ -6,7 +6,7 @@ import Rag.routers.api as api
 import re
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-
+from langchain_core.messages import AIMessage, HumanMessage
 
 class AskRequest(BaseModel):
     question: Question
@@ -31,23 +31,26 @@ async def upload_file(file):
 def format_history(history):
     format_history = []
     for pair in history:
-        assistant = ("human", pair[0])
-        human = ("system", pair[1])
-        format_history.append(assistant)
+        human = HumanMessage(content=pair[0])
+        system = AIMessage(content=pair[1])
         format_history.append(human)
+        format_history.append(system)
     return format_history
 
 
 async def ask_question(history, question, mode):
+    try:
+        response = await api.model_predict(
+            question=Question(question=question),
+            retrieval_schema=RetrieverSchema(mode=mode),
+            history=format_history(history),
+        )
 
-    response = await api.model_predict(
-        question=Question(question=question),
-        retrieval_schema=RetrieverSchema(mode=mode),
-        history=format_history(history),
-    )
-    answer = response["output"]
-    # Append the new question and answer to the chat history
-    history.append((question, answer))
+        answer = response["output"]
+        # Append the new question and answer to the chat history
+        history.append((question, answer))
+    except Exception as e:
+        return history, f"Failed to generate answer: {str(e)}"
     return history, ""
 
 
