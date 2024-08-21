@@ -1,17 +1,16 @@
 from fastapi.responses import HTMLResponse
-from Rag.agent import agent
-from Rag.schemas.schemas import RetrieverSchema, Question
-from Rag.retriever.query_translation import (
+from rag.agent import agent
+from rag.schemas.schemas import RetrieverSchema, Question
+from rag.retriever.query_translation import (
     MultipleRetriever,
-    get_retriever,
     get_multiple_retriever,
 )
-from Rag.agent.agent import Agent
-from Rag.retriever.query_translation import Retriever
+from rag.agent.agent import Agent
+from rag.retriever.query_translation import Retriever
 from init import vars
 from fastapi import APIRouter
 from fastapi import UploadFile, File
-from Rag.extract_documents.text_reader import TextReader
+from rag.extract_documents.text_reader import TextReader
 from logs.loging import logger
 
 router = APIRouter()

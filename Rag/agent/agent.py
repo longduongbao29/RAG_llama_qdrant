@@ -11,10 +11,11 @@ agent_prompt = ChatPromptTemplate.from_messages(
         (
             "system",
             """You are an assistant that has access to the following 2 tools: 
-            - search_from_database: to search for information involved to the topics.
+            - search_from_database: to search for information from database.
             - tavily_search_results_json: to search for information online.
-            Think and decide which  tool to use, then answer given question.
-            IMPORTANT: After using a tool, STOP using more tool if you already have the information for the answer!""",
+            Use search_from_database when question involves to the topics written in tool's description.
+            Otherwise use tavily_search_results_json.
+            Think and decide which tool to use, then answer given question.""",
         ),
         ("placeholder", "{chat_history}"),
         ("human", "{input}"),
@@ -44,7 +45,7 @@ class Agent:
         collection_names = [collection.name for collection in collections]
         self.retriever_tool.description = f"""Useful for when you need to answer questions about following topics: {", ".join(collection_names)}
 For any questions about topics above, you must use this tool!"""
-        logger.output({"description": self.retriever_tool.description})
+        # logger.output({"description": self.retriever_tool.description})
 
     def run(self, input):
         """

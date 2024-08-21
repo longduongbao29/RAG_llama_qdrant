@@ -1,5 +1,5 @@
 from venv import logger
-from Rag.retriever.query_translation import (
+from rag.retriever.query_translation import (
     Retriever,
     MultiQuery,
     RAGFusion,
@@ -7,7 +7,7 @@ from Rag.retriever.query_translation import (
     StepBack,
     HyDE,
 )
-from Rag.schemas.schemas import ModeEnum
+from rag.schemas.schemas import ModeEnum
 from langchain import hub
 from langchain_core.output_parsers import StrOutputParser
 from init import vars

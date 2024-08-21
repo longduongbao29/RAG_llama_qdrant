@@ -1,8 +1,8 @@
 from fastapi import FastAPI, UploadFile
 import gradio as gr
-from Rag.schemas.schemas import ModeEnum, Question, RetrieverSchema
+from rag.schemas.schemas import ModeEnum, Question, RetrieverSchema
 from pydantic import BaseModel
-import Rag.routers.api as api
+import rag.routers.api as api
 import re
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles

@@ -2,9 +2,9 @@ from typing import List
 import qdrant_client
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client.http.models import Distance, VectorParams
-from Rag.extract_documents.text_reader import TextReader
+from rag.extract_documents.text_reader import TextReader
 from langchain_text_splitters import CharacterTextSplitter
-from Rag.config.config import Config
+from rag.config.config import Config
 from logs.loging import logger
 
 config = Config()

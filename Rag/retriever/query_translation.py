@@ -1,4 +1,4 @@
-import Rag.retriever.templates as templates
+import rag.retriever.templates as templates
 from langchain_core.output_parsers import StrOutputParser
 from langchain.load import dumps, loads
 from init import vars
@@ -7,7 +7,7 @@ from langchain_core.language_models.base import BaseLanguageModel
 from langchain.prompts import ChatPromptTemplate
 from typing import List
 from logs.loging import logger
-from Rag.schemas.schemas import ModeEnum
+from rag.schemas.schemas import ModeEnum
 
 
 class Retriever(BaseRetriever):

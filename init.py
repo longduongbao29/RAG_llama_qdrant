@@ -1,6 +1,6 @@
 from qdrant.client import Qdrant_Client
 from langchain_groq import ChatGroq
-from Rag.config.config import Config
+from rag.config.config import Config
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 
 config = Config()
@@ -19,8 +19,9 @@ class InitVariable:
         self.retriever_llm = ChatGroq(
             api_key=config.groq_api_key,
             model="llama-3.1-70b-versatile",
-            temperature=0,
+            temperature=0.1,
         )
+
 
 vars = InitVariable()
 
