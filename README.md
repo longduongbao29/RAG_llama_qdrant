@@ -1,12 +1,12 @@
 # RAG with Llama and Qdrant
 This project implements a Retrieval-Augmented Generation (RAG) system using Llama and Qdrant for document retrieval, enabling seamless interaction with both local and online data sources. The system supports various modes of retrieval and query decomposition, designed for enhanced answer generation.
+
 Document: [Document for RAG](https://docs.google.com/document/d/1lgn-TPh1z7PJFqav3PLtPor41kR_RiRNgMRnrnnVnvg/edit)
 ## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 
 ## Installation
@@ -102,8 +102,21 @@ curl -X POST "http://localhost:8000/ask" \
 or you can using via FastAPI docs: http://localhost:8000/docs
 
 ### Using the System via the UI: 
-```sh
+    ```sh
     python3 -m uvicorn rag_ui:ui_app --host 0.0.0.0 --port 1234
-```
-    Access in brower: https://localhost:1234
+    ```
+Access in brower: https://localhost:1234
 ![alt text](image.png)
+## Contributing
+Fork the repository.
+Create a new branch: git checkout -b feature-branch.
+Make your changes and commit them: git commit -m 'Add feature'.
+Push to the branch: git push origin feature-branch.
+Submit a pull request.
+License
+This project is licensed under the MIT License. See the LICENSE file for more details.
+
+## Contact
+Author: Duong Bao Long
+Email: longduongbao@gmail.com
+Feel free to reach out if you have any questions or need further assistance!
