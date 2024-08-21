@@ -1,4 +1,6 @@
 .env
+.vscode
 rag-env
 models/
 **/__pycache__/
+qdrant_storage/

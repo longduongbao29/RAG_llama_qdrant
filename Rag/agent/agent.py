@@ -13,7 +13,7 @@ agent_prompt = ChatPromptTemplate.from_messages(
             """You are an assistant that has access to the following 2 tools: 
             - search_from_database: to search for information involved to the topics.
             - tavily_search_results_json: to search for information online.
-            Think and decide what tool to use, then answer given question.
+            Think and decide which  tool to use, then answer given question.
             IMPORTANT: After using a tool, STOP using more tool if you already have the information for the answer!""",
         ),
         ("placeholder", "{chat_history}"),
