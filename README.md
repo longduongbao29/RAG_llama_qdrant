@@ -1,6 +1,6 @@
 # RAG with Llama and Qdrant
 This project implements a Retrieval-Augmented Generation (RAG) system using Llama and Qdrant for document retrieval, enabling seamless interaction with both local and online data sources. The system supports various modes of retrieval and query decomposition, designed for enhanced answer generation.
-
+Document: (https://docs.google.com/document/d/1lgn-TPh1z7PJFqav3PLtPor41kR_RiRNgMRnrnnVnvg/edit)[Document for RAG]
 ## Table of Contents
 
 - [Installation](#installation)
@@ -27,16 +27,17 @@ Provide step-by-step instructions on how to install and set up your project. For
     ```
 4. Set up environment variables:
     Create .env file and configure environment variables. Example:
+   ```sh
     QDRANT_ULR = https:://qdrant/abc
     QDRANT_API_KEY = key29012003
     TAVILY_API_KEY = tvly-1234
     GROQ_API_KEY = gsk_abc123
-
-5. Run API:
+   ```
+6. Run API:
     ```sh
     python3 main.py
     ```
-6. Run application with UI:
+7. Run application with UI:
     ```sh
     python3 -m uvicorn rag_ui:ui_app --host 0.0.0.0 --port 1234
     ```
@@ -101,8 +102,8 @@ curl -X POST "http://localhost:8000/ask" \
 or you can using via FastAPI docs: http://localhost:8000/docs
 
 ### Using the System via the UI: 
-    ```sh
+```sh
     python3 -m uvicorn rag_ui:ui_app --host 0.0.0.0 --port 1234
-    ```
+```
     Access in brower: https://localhost:1234
 ![alt text](image.png)
