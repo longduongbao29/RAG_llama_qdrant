@@ -1,6 +1,6 @@
 # RAG with Llama and Qdrant
 This project implements a Retrieval-Augmented Generation (RAG) system using Llama and Qdrant for document retrieval, enabling seamless interaction with both local and online data sources. The system supports various modes of retrieval and query decomposition, designed for enhanced answer generation.
-Document: (https://docs.google.com/document/d/1lgn-TPh1z7PJFqav3PLtPor41kR_RiRNgMRnrnnVnvg/edit)[Document for RAG]
+Document: [Document for RAG](https://docs.google.com/document/d/1lgn-TPh1z7PJFqav3PLtPor41kR_RiRNgMRnrnnVnvg/edit)
 ## Table of Contents
 
 - [Installation](#installation)
