@@ -62,7 +62,7 @@ def clear_chat(history):
 
 # Create Gradio interface
 def create_app():
-    with gr.Blocks() as demo:
+    with gr.Blocks(title="RAG Chatbot") as demo:
         with gr.Row():
             with gr.Column(scale=5, min_width=800):
                 gr.Markdown("## Chatbot")
@@ -120,7 +120,7 @@ def create_app():
 # Launch the app
 # ui_app = create_app()
 # ui_app.launch(server_port=1234, share=True)  # Set share=True to create a public link
-ui_app = FastAPI(title="RAG Chatbot")
+ui_app = FastAPI()
 favicon_path = "static/chatbot.ico"
 ui_app.mount("/static", StaticFiles(directory="static"), name="static")
 

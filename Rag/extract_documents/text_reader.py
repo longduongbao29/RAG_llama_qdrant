@@ -1,4 +1,3 @@
-from click import prompt
 from langchain_core.documents import Document
 import fitz
 from logs.loging import logger

@@ -8,7 +8,14 @@ from logs.loging import logger
 
 agent_prompt = ChatPromptTemplate.from_messages(
     [
-        ("system", "You are a helpful assistant. Use 1 tool to answer question."),
+        (
+            "system",
+            """You are an assistant that has access to the following 2 tools: 
+            - search_from_database: to search for information involved to the topics.
+            - tavily_search_results_json: to search for information online.
+            Think and decide what tool to use, then answer given question.
+            IMPORTANT: After using a tool, STOP using more tool if you already have the information for the answer!""",
+        ),
         ("placeholder", "{chat_history}"),
         ("human", "{input}"),
         ("placeholder", "{agent_scratchpad}"),
@@ -35,12 +42,9 @@ class Agent:
     def update_description_retriever_tool(self, client):
         collections = client.get_collections().collections
         collection_names = [collection.name for collection in collections]
-        self.retriever_tool.description = f"""
-        A search tool optimized for comprehensive, accurate, and trusted results. 
-        Useful for when you need to answer questions about following topics: {", ".join(collection_names)}
-        For any questions about topics above, you must use this tool!
-        """
-        logger.output({"description": collection_names})
+        self.retriever_tool.description = f"""Useful for when you need to answer questions about following topics: {", ".join(collection_names)}
+For any questions about topics above, you must use this tool!"""
+        logger.output({"description": self.retriever_tool.description})
 
     def run(self, input):
         """

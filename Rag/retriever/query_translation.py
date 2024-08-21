@@ -345,21 +345,21 @@ def reciprocal_rank_fusion(results, k=60):
 
 def get_retriever(mode: ModeEnum) -> Retriever:
     """Get retriever from mode"""
-    retriever_ = Retriever(vars.llm)
+    retriever_ = Retriever(vars.retriever_llm)
     if mode == ModeEnum.multi_query:
-        retriever_ = MultiQuery(vars.llm)
+        retriever_ = MultiQuery(vars.retriever_llm)
     elif mode == ModeEnum.rag_fusion:
-        retriever_ = RAGFusion(vars.llm)
+        retriever_ = RAGFusion(vars.retriever_llm)
     elif mode == ModeEnum.recursive_decomposition:
-        retriever_ = QueryDecompostion(vars.llm, mode="recursive")
+        retriever_ = QueryDecompostion(vars.retriever_llm, mode="recursive")
     elif mode == ModeEnum.individual_decomposition:
-        retriever_ = QueryDecompostion(vars.llm, mode="individual")
+        retriever_ = QueryDecompostion(vars.retriever_llm, mode="individual")
     elif mode == ModeEnum.step_back:
-        retriever_ = StepBack(vars.llm)
+        retriever_ = StepBack(vars.retriever_llm)
     elif mode == ModeEnum.hyde:
-        retriever_ = HyDE(vars.llm)
+        retriever_ = HyDE(vars.retriever_llm)
     elif mode == ModeEnum.bm25:
-        retriever_ = Bm25(vars.llm)
+        retriever_ = Bm25(vars.retriever_llm)
     return retriever_
 
 

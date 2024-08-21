@@ -40,7 +40,7 @@ def retriever(question: Question, mode: RetrieverSchema):
     try:
         question = question.question
         retriever = MultipleRetriever(
-            model=vars.llm, retriever_methods=get_multiple_retriever(mode.mode)
+            model=vars.retriever_llm, retriever_methods=get_multiple_retriever(mode.mode)
         )
 
         docs = retriever.invoke(question)
@@ -64,10 +64,10 @@ async def model_predict(question: Question, retrieval_schema: RetrieverSchema, h
     try:
         question = question.question
         retriever = MultipleRetriever(
-            model=vars.llm,
+            model=vars.retriever_llm,
             retriever_methods=get_multiple_retriever(retrieval_schema.mode),
         )
-        agent = Agent(vars.llm, retriever)
+        agent = Agent(vars.tool_use_llm, retriever)
         agent.update_description_retriever_tool(vars.qdrant_client.client)
         answer = agent.run({"input": question, "chat_history": history})
         logger.output({"question": question, "answer": answer})
@@ -97,7 +97,7 @@ async def upload_to_database(file: UploadFile = File(...)):
             text_reader.text = contents.decode("utf-8")
         else:
             text_reader.readpdf()
-        topic = text_reader.get_topics(vars.llm)
+        topic = text_reader.get_topics(vars.retriever_llm)
         vars.qdrant_client.upload_from_text(text_reader, topic)
     except Exception as e:
         return {"message": f"Failed to process file: {str(e)}"}
