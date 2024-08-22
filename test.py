@@ -72,3 +72,11 @@
 # for chunk in chunks:
 #     print(chunk)
 #     print("\n\n")
+
+from rag.retriever.query_translation import Retriever
+from self_rag.self_rag import SelfRag
+from init import vars
+self_rag = SelfRag(vars.retriever_llm, retriever= Retriever(vars.retriever_llm))
+self_rag.build_graph()
+
+print(self_rag.run({"question": "What is Pokemon?"}))
