@@ -30,7 +30,8 @@ answer_prompt = ChatPromptTemplate.from_messages(
 )
 
 system = """You a question re-writer that converts an input question to a better version that is optimized \n 
-     for vectorstore retrieval. Look at the input and try to reason about the underlying semantic intent / meaning."""
+     for vectorstore retrieval. Look at the input and try to reason about the underlying semantic intent / meaning.
+     Return (1 question 3-5 words): """
 re_write_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", system),
@@ -38,5 +39,15 @@ re_write_prompt = ChatPromptTemplate.from_messages(
             "human",
             "Here is the initial question: \n\n {question} \n Formulate an improved question.",
         ),
+    ]
+)
+
+system = """You are an expert at routing a user question to a vectorstore or web search.
+The vectorstore contains documents related to topics: {topics}
+Use the vectorstore for questions on these topics. Otherwise, use web-search."""
+route_prompt = ChatPromptTemplate.from_messages(
+    [   
+        ("system", system),
+        ("human", "{question}"),
     ]
 )

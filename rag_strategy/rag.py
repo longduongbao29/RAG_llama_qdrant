@@ -1,29 +1,17 @@
+from abc import abstractmethod
 from langchain_core.language_models.base import BaseLanguageModel
-from self_rag.prompt import grade_prompt, hallucination_prompt, answer_prompt,re_write_prompt
+from rag_strategy.prompt import grade_prompt, hallucination_prompt, answer_prompt, re_write_prompt, route_prompt
 from langchain_core.pydantic_v1 import BaseModel, Field
-from typing import List
-from typing_extensions import TypedDict
+from typing import List, Literal
+
 from rag.retriever.query_translation import Retriever
 from langchain import hub
-from langgraph.graph import END, StateGraph, START
 from langgraph.graph.state import CompiledStateGraph
 from langchain_core.output_parsers import StrOutputParser
+from logs.loging import logger
+from langchain_community.tools.tavily_search import TavilySearchResults
 
 
-
-class GraphState(TypedDict):
-    """
-    Represents the state of our graph.
-
-    Attributes:
-        question: question
-        generation: LLM generation
-        documents: list of documents
-    """
-
-    question: str
-    generation: str
-    documents: List[str]
 class GradeDocuments(BaseModel):
     """Binary score for relevance check on retrieved documents."""
 
@@ -43,10 +31,17 @@ class GradeHallucinations(BaseModel):
     binary_score: str = Field(
         description="Answer is grounded in the facts, 'yes' or 'no'"
     )
+class RouteQuery(BaseModel):
+    """Route a user query to the most relevant datasource."""
 
+    datasource: Literal["vectorstore", "web_search"] = Field(
+        ...,
+        description="Given a user question choose to route it to web search or a vectorstore.",
+    )
 
-class SelfRag():
+class Rag():
     app: CompiledStateGraph= None
+    web_search_tool = TavilySearchResults()
     def __init__(self, llm: BaseLanguageModel, retriever: Retriever):
         self.llm = llm
         self.retriever = retriever
@@ -56,8 +51,7 @@ class SelfRag():
         self.answer_grader = answer_prompt | llm.with_structured_output(GradeAnswer)
         self.question_rewriter = re_write_prompt | llm | StrOutputParser()
         self.hallucination_grader = hallucination_prompt | llm.with_structured_output(GradeHallucinations)
-
-
+        self.question_router = route_prompt | llm.with_structured_output(RouteQuery)
     def retrieve(self,state):
         """
         Retrieve documents
@@ -68,12 +62,33 @@ class SelfRag():
         Returns:
             state (dict): New key added to state, documents, that contains retrieved documents
         """
-        print("---RETRIEVE---")
+        logger.output("---RETRIEVE---")
         question = state["question"]
 
         # Retrieval
         documents = self.retriever.get_relevant_documents(question)
         return {"documents": documents, "question": question}
+    def route_question(self,state):
+        """
+        Route question to web search or RAG.
+
+        Args:
+            state (dict): The current graph state
+
+        Returns:
+            str: Next node to call
+        """
+
+        logger.output("---ROUTE QUESTION---")
+        question = state["question"]
+        topics = state["topics"]
+        source = self.question_router.invoke({"question": question, "topics": topics})
+        if source.datasource == "web_search":
+            logger.output("---ROUTE QUESTION TO WEB SEARCH---")
+            return "web_search"
+        elif source.datasource == "vectorstore":
+            logger.output("---ROUTE QUESTION TO RAG---")
+            return "vectorstore"
 
 
     def generate(self,state):
@@ -86,7 +101,7 @@ class SelfRag():
         Returns:
             state (dict): New key added to state, generation, that contains LLM generation
         """
-        print("---GENERATE---")
+        logger.output("---GENERATE---")
         question = state["question"]
         documents = state["documents"]
 
@@ -106,7 +121,7 @@ class SelfRag():
             state (dict): Updates documents key with only filtered relevant documents
         """
 
-        print("---CHECK DOCUMENT RELEVANCE TO QUESTION---")
+        logger.output("---CHECK DOCUMENT RELEVANCE TO QUESTION---")
         question = state["question"]
         documents = state["documents"]
 
@@ -118,10 +133,10 @@ class SelfRag():
             )
             grade = score.binary_score
             if grade == "yes":
-                print("---GRADE: DOCUMENT RELEVANT---")
+                logger.output("---GRADE: DOCUMENT RELEVANT---")
                 filtered_docs.append(d)
             else:
-                print("---GRADE: DOCUMENT NOT RELEVANT---")
+                logger.output("---GRADE: DOCUMENT NOT RELEVANT---")
                 continue
         return {"documents": filtered_docs, "question": question}
 
@@ -137,7 +152,7 @@ class SelfRag():
             state (dict): Updates question key with a re-phrased question
         """
 
-        print("---TRANSFORM QUERY---")
+        logger.output("---TRANSFORM QUERY---")
         question = state["question"]
         documents = state["documents"]
 
@@ -160,20 +175,20 @@ class SelfRag():
             str: Binary decision for next node to call
         """
 
-        print("---ASSESS GRADED DOCUMENTS---")
+        logger.output("---ASSESS GRADED DOCUMENTS---")
         state["question"]
         filtered_documents = state["documents"]
 
         if not filtered_documents:
             # All documents have been filtered check_relevance
             # We will re-generate a new query
-            print(
+            logger.output(
                 "---DECISION: ALL DOCUMENTS ARE NOT RELEVANT TO QUESTION, TRANSFORM QUERY---"
             )
             return "transform_query"
         else:
             # We have relevant documents, so generate answer
-            print("---DECISION: GENERATE---")
+            logger.output("---DECISION: GENERATE---")
             return "generate"
 
 
@@ -188,7 +203,7 @@ class SelfRag():
             str: Decision for next node to call
         """
 
-        print("---CHECK HALLUCINATIONS---")
+        logger.output("---CHECK HALLUCINATIONS---")
         question = state["question"]
         documents = state["documents"]
         generation = state["generation"]
@@ -200,65 +215,32 @@ class SelfRag():
 
         # Check hallucination
         if grade == "yes":
-            print("---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---")
+            logger.output("---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---")
             # Check question-answering
-            print("---GRADE GENERATION vs QUESTION---")
+            logger.output("---GRADE GENERATION vs QUESTION---")
             score = self.answer_grader.invoke({"question": question, "generation": generation})
             grade = score.binary_score
             if grade == "yes":
-                print("---DECISION: GENERATION ADDRESSES QUESTION---")
+                logger.output("---DECISION: GENERATION ADDRESSES QUESTION---")
                 return "useful"
             else:
-                print("---DECISION: GENERATION DOES NOT ADDRESS QUESTION---")
+                logger.output("---DECISION: GENERATION DOES NOT ADDRESS QUESTION---")
                 return "not useful"
         else:
-            print("---DECISION: GENERATION IS NOT GROUNDED IN DOCUMENTS, RE-TRY---")
+            logger.output("---DECISION: GENERATION IS NOT GROUNDED IN DOCUMENTS, RE-TRY---")
             return "not supported"
-
-    def build_graph(self):  
-        workflow = StateGraph(GraphState)
-
-        # Define the nodes
-        workflow.add_node("retrieve", self.retrieve)  # retrieve
-        workflow.add_node("grade_documents", self.grade_documents)  # grade documents
-        workflow.add_node("generate", self.generate)  # generatae
-        workflow.add_node("transform_query", self.transform_query)  # transform_query
-
-        # Build graph
-        workflow.add_edge(START, "retrieve")
-        workflow.add_edge("retrieve", "grade_documents")
-        workflow.add_conditional_edges(
-            "grade_documents",
-            self.decide_to_generate,
-            {
-                "transform_query": "transform_query",
-                "generate": "generate",
-            },
-        )
-        workflow.add_edge("transform_query", "retrieve")
-        workflow.add_conditional_edges(
-            "generate",
-            self.grade_generation_v_documents_and_question,
-            {
-                "not supported": "generate",
-                "useful": END,
-                "not useful": "transform_query",
-            },
-        )
-
-        # Compile
-        self.app = workflow.compile()
+    @abstractmethod
+    def build_graph(self) -> None:
+        """Build graph 
+        """
     def run(self, inputs:dict):
-        from pprint import pprint
         for output in self.app.stream(inputs):
             for key, value in output.items():
                 # Node
-                pprint(f"Node '{key}':")
-                # Optional: print full state at each node
-                # pprint.pprint(value["keys"], indent=2, width=80, depth=None)
-            pprint("\n---\n")
+                logger.output(f"Node '{key}':")
+                # Optional: logger.output full state at each node
+                # plogger.output.plogger.output(value["keys"], indent=2, width=80, depth=None)
+            logger.output("\n---\n")
 
             # Final generation
         return value["generation"]
-    
-    

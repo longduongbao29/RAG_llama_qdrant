@@ -1,6 +1,93 @@
-2024-08-21 20:25:00,357 | OUTPUT | {'question': 'Hello', 'answer': {'input': 'Hello', 'chat_history': [], 'output': 'Hi! How can I assist you today?'}}
-2024-08-21 20:25:15,207 | OUTPUT | {'question': 'What is Pokémon?', 'answer': {'input': 'What is Pokémon?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hi! How can I assist you today?')], 'output': 'Based on the information retrieved, Pokémon is a Japanese media franchise that includes video games, animated series, films, and a trading card game. It was originally called "Pocket Monsters" in Japan, but the name was shortened to "Pokémon" during the development of the first games. The franchise is aimed at children aged 5 to 12, but it has attracted people of all ages. The games involve a trainer who travels through the Pokémon world, capturing and training Pokémon to battle against other trainers. The franchise has expanded to include various media, including movies, TV shows, and merchandise.'}}
-2024-08-21 20:25:36,754 | OUTPUT | {'question': 'What is the weather like in Hanoi today?', 'answer': {'input': 'What is the weather like in Hanoi today?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hi! How can I assist you today?'), HumanMessage(content='What is Pokémon?'), AIMessage(content='Based on the information retrieved, Pokémon is a Japanese media franchise that includes video games, animated series, films, and a trading card game. It was originally called "Pocket Monsters" in Japan, but the name was shortened to "Pokémon" during the development of the first games. The franchise is aimed at children aged 5 to 12, but it has attracted people of all ages. The games involve a trainer who travels through the Pokémon world, capturing and training Pokémon to battle against other trainers. The franchise has expanded to include various media, including movies, TV shows, and merchandise.')], 'output': "The weather in Hanoi today is characterized by torrential rain showers with a temperature of 29.2°C (84.6°F). The wind is blowing from the north at 4.3 mph (6.8 kph). The humidity is at 89%, and the cloud cover is 75%. It's advisable to carry a waterproof jacket due to the high chance of rain."}}
-2024-08-21 20:25:51,692 | OUTPUT | {'question': 'I am Long, nice to meet you.', 'answer': {'input': 'I am Long, nice to meet you.', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hi! How can I assist you today?'), HumanMessage(content='What is Pokémon?'), AIMessage(content='Based on the information retrieved, Pokémon is a Japanese media franchise that includes video games, animated series, films, and a trading card game. It was originally called "Pocket Monsters" in Japan, but the name was shortened to "Pokémon" during the development of the first games. The franchise is aimed at children aged 5 to 12, but it has attracted people of all ages. The games involve a trainer who travels through the Pokémon world, capturing and training Pokémon to battle against other trainers. The franchise has expanded to include various media, including movies, TV shows, and merchandise.'), HumanMessage(content='What is the weather like in Hanoi today?'), AIMessage(content="The weather in Hanoi today is characterized by torrential rain showers with a temperature of 29.2°C (84.6°F). The wind is blowing from the north at 4.3 mph (6.8 kph). The humidity is at 89%, and the cloud cover is 75%. It's advisable to carry a waterproof jacket due to the high chance of rain.")], 'output': "It's nice to meet you too, Long! How can I assist you today?"}}
-2024-08-21 20:26:00,755 | OUTPUT | {'question': 'What is my name?', 'answer': {'input': 'What is my name?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hi! How can I assist you today?'), HumanMessage(content='What is Pokémon?'), AIMessage(content='Based on the information retrieved, Pokémon is a Japanese media franchise that includes video games, animated series, films, and a trading card game. It was originally called "Pocket Monsters" in Japan, but the name was shortened to "Pokémon" during the development of the first games. The franchise is aimed at children aged 5 to 12, but it has attracted people of all ages. The games involve a trainer who travels through the Pokémon world, capturing and training Pokémon to battle against other trainers. The franchise has expanded to include various media, including movies, TV shows, and merchandise.'), HumanMessage(content='What is the weather like in Hanoi today?'), AIMessage(content="The weather in Hanoi today is characterized by torrential rain showers with a temperature of 29.2°C (84.6°F). The wind is blowing from the north at 4.3 mph (6.8 kph). The humidity is at 89%, and the cloud cover is 75%. It's advisable to carry a waterproof jacket due to the high chance of rain."), HumanMessage(content='I am Long, nice to meet you.'), AIMessage(content="It's nice to meet you too, Long! How can I assist you today?")], 'output': 'Your name is Long.'}}
-2024-08-21 20:26:12,638 | OUTPUT | {'question': 'What is Pokemon?', 'answer': {'input': 'What is Pokemon?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hi! How can I assist you today?'), HumanMessage(content='What is Pokémon?'), AIMessage(content='Based on the information retrieved, Pokémon is a Japanese media franchise that includes video games, animated series, films, and a trading card game. It was originally called "Pocket Monsters" in Japan, but the name was shortened to "Pokémon" during the development of the first games. The franchise is aimed at children aged 5 to 12, but it has attracted people of all ages. The games involve a trainer who travels through the Pokémon world, capturing and training Pokémon to battle against other trainers. The franchise has expanded to include various media, including movies, TV shows, and merchandise.'), HumanMessage(content='What is the weather like in Hanoi today?'), AIMessage(content="The weather in Hanoi today is characterized by torrential rain showers with a temperature of 29.2°C (84.6°F). The wind is blowing from the north at 4.3 mph (6.8 kph). The humidity is at 89%, and the cloud cover is 75%. It's advisable to carry a waterproof jacket due to the high chance of rain."), HumanMessage(content='I am Long, nice to meet you.'), AIMessage(content="It's nice to meet you too, Long! How can I assist you today?"), HumanMessage(content='What is my name?'), AIMessage(content='Your name is Long.')], 'output': 'Based on the information retrieved, Pokémon is a Japanese media franchise that includes video games, animated series, films, and a trading card game. It was originally called "Pocket Monsters" in Japan, but the name was shortened to "Pokémon" during the development of the first games. The franchise is aimed at children aged 5 to 12, but it has attracted people of all ages. The games involve a trainer who travels through the Pokémon world, capturing and training Pokémon to battle against other trainers. The franchise has expanded to include various media, including movies, TV shows, and merchandise.'}}
+2024-08-22 12:17:38,555 | OUTPUT | {'question': 'What is the weather today in Hanoi?', 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-22 12:17:38,595 | OUTPUT | ---ROUTE QUESTION---
+2024-08-22 12:17:52,333 | OUTPUT | ---ROUTE QUESTION TO WEB SEARCH---
+2024-08-22 12:17:52,339 | OUTPUT | ---WEB SEARCH---
+2024-08-22 12:17:56,827 | OUTPUT | Node 'web_search':
+2024-08-22 12:17:56,827 | OUTPUT | 
+---
+
+2024-08-22 12:17:56,831 | OUTPUT | ---GENERATE---
+2024-08-22 12:18:26,890 | OUTPUT | {'question': 'What is the weather today in Hanoi?', 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-22 12:18:26,929 | OUTPUT | ---ROUTE QUESTION---
+2024-08-22 12:18:28,252 | OUTPUT | ---ROUTE QUESTION TO WEB SEARCH---
+2024-08-22 12:18:28,257 | OUTPUT | ---WEB SEARCH---
+2024-08-22 12:18:32,679 | OUTPUT | Node 'web_search':
+2024-08-22 12:18:32,680 | OUTPUT | 
+---
+
+2024-08-22 12:18:32,683 | OUTPUT | ---GENERATE---
+2024-08-22 12:18:33,205 | OUTPUT | ---CHECK HALLUCINATIONS---
+2024-08-22 12:18:33,649 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+2024-08-22 12:18:33,650 | OUTPUT | ---GRADE GENERATION vs QUESTION---
+2024-08-22 12:18:34,086 | OUTPUT | ---DECISION: GENERATION DOES NOT ADDRESS QUESTION---
+2024-08-22 12:18:34,088 | OUTPUT | Node 'generate':
+2024-08-22 12:18:34,088 | OUTPUT | 
+---
+
+2024-08-22 12:18:34,091 | OUTPUT | ---TRANSFORM QUERY---
+2024-08-22 12:18:34,450 | OUTPUT | Node 'transform_query':
+2024-08-22 12:18:34,450 | OUTPUT | 
+---
+
+2024-08-22 12:18:34,453 | OUTPUT | ---RETRIEVE---
+2024-08-22 12:18:35,722 | OUTPUT | Node 'retrieve':
+2024-08-22 12:18:35,723 | OUTPUT | 
+---
+
+2024-08-22 12:18:35,726 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-22 12:18:36,347 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:36,934 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:37,459 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:37,943 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:38,413 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:38,417 | OUTPUT | ---ASSESS GRADED DOCUMENTS---
+2024-08-22 12:18:38,417 | OUTPUT | ---DECISION: ALL DOCUMENTS ARE NOT RELEVANT TO QUESTION, TRANSFORM QUERY---
+2024-08-22 12:18:38,419 | OUTPUT | Node 'grade_documents':
+2024-08-22 12:18:38,419 | OUTPUT | 
+---
+
+2024-08-22 12:18:38,421 | OUTPUT | ---TRANSFORM QUERY---
+2024-08-22 12:18:39,876 | OUTPUT | Node 'transform_query':
+2024-08-22 12:18:39,877 | OUTPUT | 
+---
+
+2024-08-22 12:18:39,879 | OUTPUT | ---RETRIEVE---
+2024-08-22 12:18:40,476 | OUTPUT | Node 'retrieve':
+2024-08-22 12:18:40,476 | OUTPUT | 
+---
+
+2024-08-22 12:18:40,478 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-22 12:18:41,145 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:41,892 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:42,372 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:42,857 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:43,317 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:43,321 | OUTPUT | ---ASSESS GRADED DOCUMENTS---
+2024-08-22 12:18:43,321 | OUTPUT | ---DECISION: ALL DOCUMENTS ARE NOT RELEVANT TO QUESTION, TRANSFORM QUERY---
+2024-08-22 12:18:43,323 | OUTPUT | Node 'grade_documents':
+2024-08-22 12:18:43,323 | OUTPUT | 
+---
+
+2024-08-22 12:18:43,325 | OUTPUT | ---TRANSFORM QUERY---
+2024-08-22 12:18:43,654 | OUTPUT | Node 'transform_query':
+2024-08-22 12:18:43,654 | OUTPUT | 
+---
+
+2024-08-22 12:18:43,656 | OUTPUT | ---RETRIEVE---
+2024-08-22 12:18:44,245 | OUTPUT | Node 'retrieve':
+2024-08-22 12:18:44,245 | OUTPUT | 
+---
+
+2024-08-22 12:18:44,247 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-22 12:18:44,800 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:45,427 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:45,892 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:46,927 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:47,625 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-22 12:18:47,630 | OUTPUT | ---ASSESS GRADED DOCUMENTS---
+2024-08-22 12:18:47,630 | OUTPUT | ---DECISION: ALL DOCUMENTS ARE NOT RELEVANT TO QUESTION, TRANSFORM QUERY---
+2024-08-22 12:18:47,631 | OUTPUT | Node 'grade_documents':
+2024-08-22 12:18:47,632 | OUTPUT | 
+---
+
+2024-08-22 12:18:47,634 | OUTPUT | ---TRANSFORM QUERY---
