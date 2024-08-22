@@ -102,9 +102,9 @@ curl -X POST "http://localhost:8000/ask" \
 or you can using via FastAPI docs: http://localhost:8000/docs
 
 ### Using the System via the UI: 
-    ```sh
+```sh
     python3 -m uvicorn rag_ui:ui_app --host 0.0.0.0 --port 1234
-    ```
+```
 Access in brower: https://localhost:1234
 ![alt text](image.png)
 ## Contributing
