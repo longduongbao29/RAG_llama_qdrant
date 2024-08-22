@@ -2,8 +2,7 @@ from typing import List
 from rag_strategy.rag import Rag
 from typing_extensions import TypedDict
 from langgraph.graph import END, StateGraph, START
-from logs.loging import logger
-from langchain.schema import Document
+
 class GraphState(TypedDict):
     """
     Represents the state of our graph.
@@ -19,27 +18,6 @@ class GraphState(TypedDict):
     documents: List[str]
     topics: str
 class AdaptiveRag(Rag):
-    def web_search(self, state):
-        """
-        Web search based on the re-phrased question.
-
-        Args:
-            state (dict): The current graph state
-
-        Returns:
-            state (dict): Updates documents key with appended web results
-        """
-
-        logger.output("---WEB SEARCH---")
-        question = state["question"]
-        documents = state["documents"]
-
-        # Web search
-        docs = self.web_search_tool.invoke({"query": question})
-        web_results = "\n".join(d["content"] for d in docs)
-        web_results = Document(page_content=web_results)
-
-        return {"documents": documents, "question": question}
     def build_graph(self) -> None:
         workflow = StateGraph(GraphState)
 
@@ -79,9 +57,8 @@ class AdaptiveRag(Rag):
                 "not useful": "transform_query",
             },
         )
-
-        # Compile
         self.app = workflow.compile()
+        
     def get_retriever_topics(self):
         from init import vars
         collections = vars.qdrant_client.client.get_collections().collections

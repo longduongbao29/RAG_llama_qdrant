@@ -2,8 +2,8 @@ from abc import abstractmethod
 from langchain_core.language_models.base import BaseLanguageModel
 from rag_strategy.prompt import grade_prompt, hallucination_prompt, answer_prompt, re_write_prompt, route_prompt
 from langchain_core.pydantic_v1 import BaseModel, Field
-from typing import List, Literal
-
+from typing import Literal
+from langchain.schema import Document
 from rag.retriever.query_translation import Retriever
 from langchain import hub
 from langgraph.graph.state import CompiledStateGraph
@@ -160,9 +160,29 @@ class Rag():
         better_question = self.question_rewriter.invoke({"question": question})
         return {"documents": documents, "question": better_question}
 
+    def web_search(self, state):
+        """
+        Web search based on the re-phrased question.
 
-    ### Edges
+        Args:
+            state (dict): The current graph state
 
+        Returns:
+            state (dict): Updates documents key with appended web results
+        """
+
+        logger.output("---WEB SEARCH---")
+        question = state["question"]
+        if not state["documents"]:
+            state["documents"] = []
+        documents = state["documents"]
+        # Web search
+        docs = self.web_search_tool.invoke({"query": question})
+        web_results = "\n".join(d["content"] for d in docs)
+        web_results = Document(page_content=web_results)
+        documents.append(web_results)
+        
+        return {"documents": documents, "question": question}
 
     def decide_to_generate(self,state):
         """

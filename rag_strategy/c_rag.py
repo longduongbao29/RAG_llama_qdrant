@@ -2,8 +2,7 @@ from typing import List
 from typing_extensions import TypedDict
 from langgraph.graph import END, StateGraph, START
 from rag_strategy.rag import Rag
-from logs.loging import logger
-from langchain.schema import Document
+
 class GraphState(TypedDict):
     """
     Represents the state of our graph.
@@ -20,29 +19,6 @@ class GraphState(TypedDict):
     web_search: str
     documents: List[str]
 class CRag(Rag):
-    def web_search(self, state):
-        """
-        Web search based on the re-phrased question.
-
-        Args:
-            state (dict): The current graph state
-
-        Returns:
-            state (dict): Updates documents key with appended web results
-        """
-
-        logger.output("---WEB SEARCH---")
-        question = state["question"]
-        documents = state["documents"]
-
-        # Web search
-        docs = self.web_search_tool.invoke({"query": question})
-        logger.output(docs)
-        web_results = "\n".join(doc["content"] for doc in docs)
-        web_results = Document(page_content=web_results)
-        documents.append(web_results)
-
-        return {"documents": documents, "question": question}
     def build_graph(self):
         workflow = StateGraph(GraphState)
         # Define the nodes
