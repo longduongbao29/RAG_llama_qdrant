@@ -1,17 +1,20 @@
-2024-08-22 14:49:47,664 | OUTPUT | {'question': 'What is the weather today in Hanoi?', 'topics': 'Road Traffic Regulations, Pokémon'}
-2024-08-22 14:49:47,703 | OUTPUT | ---ROUTE QUESTION---
-2024-08-22 14:49:48,244 | OUTPUT | ---ROUTE QUESTION TO WEB SEARCH---
-2024-08-22 14:49:48,249 | OUTPUT | ---WEB SEARCH---
-2024-08-22 14:49:52,201 | OUTPUT | Node 'web_search':
-2024-08-22 14:49:52,201 | OUTPUT | 
+2024-08-22 17:18:35,813 | OUTPUT | {'question': 'Hello', 'answer': ''}
+2024-08-22 17:25:19,513 | OUTPUT | {'decision': RouteQuery(reply='yes')}
+2024-08-22 17:25:25,429 | OUTPUT | {'question': 'Hello', 'answer': "Hello. It's nice to meet you. Is there something I can help you with or would you like to chat?"}
+2024-08-22 17:26:15,152 | OUTPUT | {'decision': RouteQuery(reply='yes')}
+2024-08-22 17:26:18,348 | OUTPUT | {'question': 'Who are you?', 'answer': "I'm a helpful assistant, here to provide information, answer questions, and assist with tasks to the best of my abilities."}
+2024-08-22 17:26:28,307 | OUTPUT | {'decision': RouteQuery(reply='yes')}
+2024-08-22 17:26:29,648 | OUTPUT | {'question': 'What is Pokemon?', 'answer': 'You initially asked about Pokémon. Pokémon is a popular media franchise created by Satoshi Tajiri in 1996 that includes video games, anime, manga, and trading card games. The franchise is centered around fictional creatures called "Pokémon" that can be trained, battled, and collected by human trainers.\n\nIn the world of Pokémon, there are many different species of Pokémon, each with its unique abilities, strengths, and weaknesses. The main goal of the games and anime is to become a Pokémon Master by catching and training many different species of Pokémon.\n\nThe franchise has become incredibly popular worldwide, with a vast and dedicated fan base. It has also spawned numerous movies, TV shows, and other media.\n\nWould you like to know more about Pokémon or is there something else I can help you with?'}
+2024-08-22 17:28:11,090 | OUTPUT | {'decision': RouteQuery(reply='no')}
+2024-08-22 17:28:12,004 | OUTPUT | {'question': 'what is the weather today in Hanoi?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content="Hello. It's nice to meet you. Is there something I can help you with or would you like to chat?"), HumanMessage(content='Who are you?'), AIMessage(content="I'm a helpful assistant, here to provide information, answer questions, and assist with tasks to the best of my abilities."), HumanMessage(content='What is Pokemon?'), AIMessage(content='You initially asked about Pokémon. Pokémon is a popular media franchise created by Satoshi Tajiri in 1996 that includes video games, anime, manga, and trading card games. The franchise is centered around fictional creatures called "Pokémon" that can be trained, battled, and collected by human trainers.\n\nIn the world of Pokémon, there are many different species of Pokémon, each with its unique abilities, strengths, and weaknesses. The main goal of the games and anime is to become a Pokémon Master by catching and training many different species of Pokémon.\n\nThe franchise has become incredibly popular worldwide, with a vast and dedicated fan base. It has also spawned numerous movies, TV shows, and other media.\n\nWould you like to know more about Pokémon or is there something else I can help you with?')], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-22 17:28:12,039 | OUTPUT | ---ROUTE QUESTION---
+2024-08-22 17:28:15,944 | OUTPUT | ---ROUTE QUESTION TO WEB SEARCH---
+2024-08-22 17:28:15,951 | OUTPUT | ---WEB SEARCH---
+2024-08-22 17:28:20,489 | OUTPUT | Node 'web_search':
+2024-08-22 17:28:20,489 | OUTPUT | 
 ---
 
-2024-08-22 14:49:52,205 | OUTPUT | ---GENERATE---
-2024-08-22 14:49:52,954 | OUTPUT | ---CHECK HALLUCINATIONS---
-2024-08-22 14:49:53,817 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
-2024-08-22 14:49:53,817 | OUTPUT | ---GRADE GENERATION vs QUESTION---
-2024-08-22 14:49:54,203 | OUTPUT | ---DECISION: GENERATION ADDRESSES QUESTION---
-2024-08-22 14:49:54,204 | OUTPUT | Node 'generate':
-2024-08-22 14:49:54,204 | OUTPUT | 
----
-
+2024-08-22 17:28:20,492 | OUTPUT | ---GENERATE---
+2024-08-22 17:28:23,432 | OUTPUT | ---CHECK HALLUCINATIONS---
+2024-08-22 17:28:26,649 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+2024-08-22 17:28:26,649 | OUTPUT | ---GRADE GENERATION vs QUESTION---

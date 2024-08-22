@@ -1,20 +1,23 @@
 from fastapi.responses import HTMLResponse
-from rag.agent import agent
-from rag.schemas.schemas import RetrieverSchema, Question
+# from rag.agent import agent
+from rag.schemas.schemas import RetrieverSchema, Question, StrategyEnum
 from rag.retriever.query_translation import (
     MultipleRetriever,
     get_multiple_retriever,
 )
-from rag.agent.agent import Agent
-from rag.retriever.query_translation import Retriever
+# from rag.agent.agent import Agent
+# from rag.retriever.query_translation import Retriever
 from init import vars
 from fastapi import APIRouter
 from fastapi import UploadFile, File
 from rag.extract_documents.text_reader import TextReader
 from logs.loging import logger
+from rag.rag_strategy.stragery import get_strategy
+from rag.answer.chatbot_gen import ChatBotGen
+
+
 
 router = APIRouter()
-
 
 @router.get("/", response_class=HTMLResponse)
 def read_root():
@@ -49,7 +52,7 @@ def retriever(question: Question, mode: RetrieverSchema):
 
 
 @router.post("/ask")
-async def model_predict(question: Question, retrieval_schema: RetrieverSchema, history):
+async def ask(question: Question, retrieval_schema: RetrieverSchema,strategy : StrategyEnum, history):
     """
     This function generates an answer to a given question using an Agent including search_tool and retriever_tool.
 
@@ -66,9 +69,19 @@ async def model_predict(question: Question, retrieval_schema: RetrieverSchema, h
             model=vars.retriever_llm,
             retriever_methods=get_multiple_retriever(retrieval_schema.mode),
         )
-        agent = Agent(vars.tool_use_llm, retriever)
-        agent.update_description_retriever_tool(vars.qdrant_client.client)
-        answer = agent.run({"input": question, "chat_history": history})
+        strategy = get_strategy(strategy, vars.retriever_llm, retriever)
+        strategy.build_graph()
+        inputs = {
+            "question": question,
+            "chat_history": history,
+        }
+        
+        chatbot = ChatBotGen(vars.retriever_llm, strategy)
+        answer = chatbot.run(inputs)
+        
+        # agent = Agent(vars.tool_use_llm, retriever)
+        # agent.update_description_retriever_tool(vars.qdrant_client.client)
+        # answer = agent.run({"input": question, "chat_history": history})
         logger.output({"question": question, "answer": answer})
     except Exception as e:
         return {"message": f"Failed to generate answer: {str(e)}"}

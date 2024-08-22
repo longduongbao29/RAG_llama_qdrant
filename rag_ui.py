@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile
 import gradio as gr
-from rag.schemas.schemas import ModeEnum, Question, RetrieverSchema
+from rag.schemas.schemas import ModeEnum, Question, RetrieverSchema, StrategyEnum
 from pydantic import BaseModel
 import rag.routers.api as api
 import re
@@ -39,15 +39,16 @@ def format_history(history):
     return format_history
 
 
-async def ask_question(history, question, mode):
+async def ask_question(history, question, mode, strategy):
     try:
-        response = await api.model_predict(
+        response = await api.ask(
             question=Question(question=question),
             retrieval_schema=RetrieverSchema(mode=mode),
+            strategy= StrategyEnum(value= strategy),
             history=format_history(history),
         )
 
-        answer = response["output"]
+        answer = response
         # Append the new question and answer to the chat history
         history.append((question, answer))
     except Exception as e:
@@ -74,19 +75,25 @@ def create_app():
                         scale=1,
                         elem_id="send_button",
                     )
-                mode_input = gr.Dropdown(
-                    label="Select Mode",
-                    choices=[mode.value for mode in ModeEnum],
-                    value="default",
-                    multiselect=True,
-                )
+                with gr.Row():
+                    mode_input = gr.Dropdown(
+                        label="Select Mode",
+                        choices=[mode.value for mode in ModeEnum],
+                        value="default",
+                        multiselect=True,
+                    )
+                    strategy = gr.Dropdown(
+                        label="Select Strategy",
+                        choices=[st.value for st in StrategyEnum],
+                        value="adaptive-rag",
+                    )
 
                 clear_button = gr.Button("❌Clear Chat")
 
                 # The `state` argument keeps track of the chat history
                 send_button.click(
                     ask_question,
-                    inputs=[chatbot, question_input, mode_input],
+                    inputs=[chatbot, question_input, mode_input, strategy],
                     outputs=[chatbot, question_input],
                 )
                 clear_button.click(clear_chat, inputs=chatbot, outputs=chatbot)

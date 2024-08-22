@@ -1,22 +1,7 @@
-from typing import List
-from rag_strategy.rag import Rag
-from typing_extensions import TypedDict
+from rag.rag_strategy.rag import Rag, GraphState
 from langgraph.graph import END, StateGraph, START
 
-class GraphState(TypedDict):
-    """
-    Represents the state of our graph.
 
-    Attributes:
-        question: question
-        generation: LLM generation
-        documents: list of documents
-    """
-
-    question: str
-    generation: str
-    documents: List[str]
-    topics: str
 class AdaptiveRag(Rag):
     def build_graph(self) -> None:
         workflow = StateGraph(GraphState)

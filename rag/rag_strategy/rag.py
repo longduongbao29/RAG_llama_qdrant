@@ -1,16 +1,31 @@
 from abc import abstractmethod
+from typing_extensions import TypedDict
 from langchain_core.language_models.base import BaseLanguageModel
-from rag_strategy.prompt import grade_prompt, hallucination_prompt, answer_prompt, re_write_prompt, route_prompt
+from rag.rag_strategy.prompt import rag_prompt, grade_prompt, hallucination_prompt, answer_prompt, re_write_prompt, route_prompt
 from langchain_core.pydantic_v1 import BaseModel, Field
-from typing import Literal
+from typing import List, Literal
 from langchain.schema import Document
-from rag.retriever.query_translation import Retriever
-from langchain import hub
+from langchain_core.retrievers import BaseRetriever
 from langgraph.graph.state import CompiledStateGraph
 from langchain_core.output_parsers import StrOutputParser
 from logs.loging import logger
 from langchain_community.tools.tavily_search import TavilySearchResults
+class GraphState(TypedDict):
+    """
+    Represents the state of our graph.
 
+    Attributes:
+        question: question
+        generation: LLM generation
+        documents: list of documents
+    """
+
+    question: str
+    generation: str
+    documents: List[str]
+    topics: str
+    web_search_: str
+    chat_history: List
 
 class GradeDocuments(BaseModel):
     """Binary score for relevance check on retrieved documents."""
@@ -42,11 +57,10 @@ class RouteQuery(BaseModel):
 class Rag():
     app: CompiledStateGraph= None
     web_search_tool = TavilySearchResults()
-    def __init__(self, llm: BaseLanguageModel, retriever: Retriever):
+    def __init__(self, llm: BaseLanguageModel, retriever_: BaseRetriever):
         self.llm = llm
-        self.retriever = retriever
-        prompt = hub.pull("rlm/rag-prompt")
-        self.rag_chain = prompt | llm | StrOutputParser()
+        self.retriever_ = retriever_
+        self.rag_chain = rag_prompt | llm | StrOutputParser()
         self.retrieval_grader = grade_prompt | llm.with_structured_output(GradeDocuments)
         self.answer_grader = answer_prompt | llm.with_structured_output(GradeAnswer)
         self.question_rewriter = re_write_prompt | llm | StrOutputParser()
@@ -66,7 +80,8 @@ class Rag():
         question = state["question"]
 
         # Retrieval
-        documents = self.retriever.get_relevant_documents(question)
+        documents = []
+        documents.extend(self.retriever_._get_relevant_documents(question))
         return {"documents": documents, "question": question}
     def route_question(self,state):
         """
@@ -104,9 +119,10 @@ class Rag():
         logger.output("---GENERATE---")
         question = state["question"]
         documents = state["documents"]
+        chat_history = state["chat_history"]
 
         # RAG generation
-        generation = self.rag_chain.invoke({"context": documents, "question": question})
+        generation = self.rag_chain.invoke({"context": documents, "question": question, "chat_history":chat_history})
         return {"documents": documents, "question": question, "generation": generation}
 
 
@@ -127,6 +143,7 @@ class Rag():
 
         # Score each doc
         filtered_docs = []
+        web_search = "No"
         for d in documents:
             score = self.retrieval_grader.invoke(
                 {"question": question, "document": d.page_content}
@@ -137,8 +154,9 @@ class Rag():
                 filtered_docs.append(d)
             else:
                 logger.output("---GRADE: DOCUMENT NOT RELEVANT---")
+                web_search = "Yes"
                 continue
-        return {"documents": filtered_docs, "question": question}
+        return {"documents": filtered_docs, "question": question, "web_search": web_search}
 
 
     def transform_query(self,state):
@@ -183,7 +201,7 @@ class Rag():
         documents.append(web_results)
         
         return {"documents": documents, "question": question}
-
+    
     def decide_to_generate(self,state):
         """
         Determines whether to generate an answer, or re-generate a question.

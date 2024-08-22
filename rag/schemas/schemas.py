@@ -13,7 +13,10 @@ class ModeEnum(str, Enum):
     hyde = "hyde"
     bm25 = "bm25"
 
-
+class StrategyEnum(str, Enum):
+    self_rag = "self-rag"
+    c_rag = "c-rag"
+    adaptive_rag = "adaptive-rag"
 class Question(BaseModel):
     question: str = Field(examples=["What is your name?"])
 
@@ -25,3 +28,4 @@ class RetrieverSchema(BaseModel):
 class AskRequest(BaseModel):
     question: Question
     retrieval_schema: RetrieverSchema
+    rag_strategy: StrategyEnum

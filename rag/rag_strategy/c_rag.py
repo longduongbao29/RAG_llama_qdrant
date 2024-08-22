@@ -1,24 +1,34 @@
-from typing import List
-from typing_extensions import TypedDict
 from langgraph.graph import END, StateGraph, START
-from rag_strategy.rag import Rag
-
-class GraphState(TypedDict):
-    """
-    Represents the state of our graph.
-
-    Attributes:
-        question: question
-        generation: LLM generation
-        web_search: whether to add search
-        documents: list of documents
-    """
-
-    question: str
-    generation: str
-    web_search: str
-    documents: List[str]
+from rag.rag_strategy.rag import Rag, GraphState
+from logs.loging import logger
 class CRag(Rag):
+    def decide_to_generate(self,state):
+        """
+        Determines whether to generate an answer, or re-generate a question.
+
+        Args:
+            state (dict): The current graph state
+
+        Returns:
+            str: Binary decision for next node to call
+        """
+
+        logger.output("---ASSESS GRADED DOCUMENTS---")
+        state["question"]
+        web_search = state["web_search"]
+
+        if web_search == "Yes":
+            # All documents have been filtered check_relevance
+            # We will re-generate a new query
+            logger.output(
+                "---DECISION: ALL DOCUMENTS ARE NOT RELEVANT TO QUESTION, TRANSFORM QUERY---"
+            )
+            return "transform_query"
+        else:
+            # We have relevant documents, so generate answer
+            logger.output("---DECISION: GENERATE---")
+            return "generate"
+        
     def build_graph(self):
         workflow = StateGraph(GraphState)
         # Define the nodes

@@ -2,7 +2,7 @@
 from langchain_groq import ChatGroq
 from rag.config.config import Config
 from rag.retriever.query_translation import Retriever
-from rag_strategy.adaptive_rag import AdaptiveRag 
+from rag.rag_strategy.adaptive_rag import AdaptiveRag 
 from init import vars
 config = Config()
 llm = ChatGroq(
