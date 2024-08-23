@@ -1,39 +1,39 @@
-from eval_model import CustomLlama3_8B, CustomMistral7B
-# from preprocess import inputs, expected_outputs, actual_outputs
-
-
+from eval_model import CustomLlama3_70B
+from preprocess import inputs, expected_outputs, actual_outputs, retrieval_contexts
+from deepeval import evaluate
 from deepeval.metrics import (
     ContextualPrecisionMetric,
     ContextualRecallMetric,
-    ContextualRelevancyMetric
+    ContextualRelevancyMetric,
+    AnswerRelevancyMetric, 
+    FaithfulnessMetric
 )
+
 from deepeval.test_case import LLMTestCase
 
-model = CustomLlama3_8B()
-print(model.generate("Write me a joke"))
-# contextual_precision = ContextualPrecisionMetric(model=model)
-# contextual_recall = ContextualRecallMetric(model=model)
-# contextual_relevancy = ContextualRelevancyMetric(model=model)
+model = CustomLlama3_70B()
 
-# test_case = LLMTestCase(
-#     input="I'm on an F-1 visa, gow long can I stay in the US after graduation?",
-#     actual_output="You can stay up to 30 days after completing your degree.",
-#     expected_output="You can stay up to 60 days after completing your degree.",
-#     retrieval_context=[
-#         """If you are in the U.S. on an F-1 visa, you are allowed to stay for 60 days after completing
-#         your degree, unless you have applied for and been approved to participate in OPT."""
-#     ]
-# )
+contextual_precision = ContextualPrecisionMetric(model=model)
+contextual_recall = ContextualRecallMetric(model=model)
+contextual_relevancy = ContextualRelevancyMetric(model=model)
+answer_relevancy = AnswerRelevancyMetric()
+faithfulness = FaithfulnessMetric()
 
+def create_test_cases():
+    test_cases = []
+    for input, actual_output, expected_output, retrieval_context in zip(inputs, actual_outputs, expected_outputs, retrieval_contexts):
+        test_cases.append(LLMTestCase(
+            input=input,
+            actual_output=actual_output,
+            expected_output=expected_output,
+            retrieval_context=retrieval_context
+        ))
+    return test_cases
+test_cases = create_test_cases()
+print("\nTest cases:" ,len(test_cases))
+evaluate(
+    test_cases=test_cases,
+    ignore_errors=True,
+    metrics=[contextual_precision, contextual_recall, contextual_relevancy, answer_relevancy, faithfulness]
+)
 
-# contextual_precision.measure(test_case)
-# print("Score: ", contextual_precision.score)
-# print("Reason: ", contextual_precision.reason)
-
-# contextual_recall.measure(test_case)
-# print("Score: ", contextual_recall.score)
-# print("Reason: ", contextual_recall.reason)
-
-# contextual_relevancy.measure(test_case)
-# print("Score: ", contextual_relevancy.score)
-# print("Reason: ", contextual_relevancy.reason)
