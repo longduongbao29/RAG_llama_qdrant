@@ -20,12 +20,17 @@ hallucination_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-system = """You are a grader assessing whether an answer addresses / resolves a question \n 
-     Give a binary score 'yes' or 'no'. Yes' means that the answer resolves the question."""
+system = """You are a grader assessing whether an answer addresses / resolves an input sentence or question.\n 
+     Give a binary score 'yes' or 'no'. Yes' means that the answer resolves the question / input sentence.
+    
+    Example:
+    Human: Hello
+    System: Hello, what's on your mind today?
+    Return: 'yes'"""
 answer_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", system),
-        ("human", "User question: \n\n {question} \n\n LLM generation: {generation}"),
+        ("human", "User input: \n\n {question} \n\n LLM generation: {generation}"),
     ]
 )
 
@@ -63,3 +68,17 @@ Chat history: {chat_history}
 Answer:"""
 
 rag_prompt = ChatPromptTemplate.from_template(template=template)
+
+first_gen_prompt = ChatPromptTemplate.from_messages([
+    ("system", """
+    You are a helpful assistant with extensive knowledge.
+    Answer user queries based on your understanding, chat history, and knowledge base.
+    Please avoid answering questions related to the following topics: {topics}.
+    Always be concise, respectful, and clear in your responses.
+    If the question falls into the restricted topics, politely inform the user that you cannot respond.
+    Here is the chat history for reference:
+    {chat_history}
+    Return the answer as follows:
+    """),
+    ("human", "{question}")
+])

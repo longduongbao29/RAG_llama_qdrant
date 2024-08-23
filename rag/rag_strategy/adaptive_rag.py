@@ -44,22 +44,9 @@ class AdaptiveRag(Rag):
         )
         self.app = workflow.compile()
         
-    def get_retriever_topics(self):
-        from init import vars
-        collections = vars.qdrant_client.client.get_collections().collections
-        collection_names = [collection.name for collection in collections]
-        return ", ".join(collection_names)
+    
     def run(self, inputs:dict):
         from logs.loging import logger
         inputs["topics"] = self.get_retriever_topics()
         logger.output(inputs)
-        for output in self.app.stream(inputs):
-            for key, value in output.items():
-                # Node
-                logger.output(f"Node '{key}':")
-                # Optional: logger.output full state at each node
-                # plogger.output.plogger.output(value["keys"], indent=2, width=80, depth=None)
-            logger.output("\n---\n")
-
-            # Final generation
-        return value["generation"]
+        return super().run(inputs)

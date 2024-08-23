@@ -76,9 +76,9 @@ async def ask(question: Question, retrieval_schema: RetrieverSchema,strategy : S
             "chat_history": history,
         }
         
-        chatbot = ChatBotGen(vars.retriever_llm, strategy)
-        answer = chatbot.run(inputs)
-        
+        # chatbot = ChatBotGen(vars.retriever_llm, strategy)
+        # answer = chatbot.run(inputs)
+        answer = strategy.run(inputs)
         # agent = Agent(vars.tool_use_llm, retriever)
         # agent.update_description_retriever_tool(vars.qdrant_client.client)
         # answer = agent.run({"input": question, "chat_history": history})

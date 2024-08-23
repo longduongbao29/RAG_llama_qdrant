@@ -1,20 +1,365 @@
-2024-08-22 17:18:35,813 | OUTPUT | {'question': 'Hello', 'answer': ''}
-2024-08-22 17:25:19,513 | OUTPUT | {'decision': RouteQuery(reply='yes')}
-2024-08-22 17:25:25,429 | OUTPUT | {'question': 'Hello', 'answer': "Hello. It's nice to meet you. Is there something I can help you with or would you like to chat?"}
-2024-08-22 17:26:15,152 | OUTPUT | {'decision': RouteQuery(reply='yes')}
-2024-08-22 17:26:18,348 | OUTPUT | {'question': 'Who are you?', 'answer': "I'm a helpful assistant, here to provide information, answer questions, and assist with tasks to the best of my abilities."}
-2024-08-22 17:26:28,307 | OUTPUT | {'decision': RouteQuery(reply='yes')}
-2024-08-22 17:26:29,648 | OUTPUT | {'question': 'What is Pokemon?', 'answer': 'You initially asked about Pokémon. Pokémon is a popular media franchise created by Satoshi Tajiri in 1996 that includes video games, anime, manga, and trading card games. The franchise is centered around fictional creatures called "Pokémon" that can be trained, battled, and collected by human trainers.\n\nIn the world of Pokémon, there are many different species of Pokémon, each with its unique abilities, strengths, and weaknesses. The main goal of the games and anime is to become a Pokémon Master by catching and training many different species of Pokémon.\n\nThe franchise has become incredibly popular worldwide, with a vast and dedicated fan base. It has also spawned numerous movies, TV shows, and other media.\n\nWould you like to know more about Pokémon or is there something else I can help you with?'}
-2024-08-22 17:28:11,090 | OUTPUT | {'decision': RouteQuery(reply='no')}
-2024-08-22 17:28:12,004 | OUTPUT | {'question': 'what is the weather today in Hanoi?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content="Hello. It's nice to meet you. Is there something I can help you with or would you like to chat?"), HumanMessage(content='Who are you?'), AIMessage(content="I'm a helpful assistant, here to provide information, answer questions, and assist with tasks to the best of my abilities."), HumanMessage(content='What is Pokemon?'), AIMessage(content='You initially asked about Pokémon. Pokémon is a popular media franchise created by Satoshi Tajiri in 1996 that includes video games, anime, manga, and trading card games. The franchise is centered around fictional creatures called "Pokémon" that can be trained, battled, and collected by human trainers.\n\nIn the world of Pokémon, there are many different species of Pokémon, each with its unique abilities, strengths, and weaknesses. The main goal of the games and anime is to become a Pokémon Master by catching and training many different species of Pokémon.\n\nThe franchise has become incredibly popular worldwide, with a vast and dedicated fan base. It has also spawned numerous movies, TV shows, and other media.\n\nWould you like to know more about Pokémon or is there something else I can help you with?')], 'topics': 'Road Traffic Regulations, Pokémon'}
-2024-08-22 17:28:12,039 | OUTPUT | ---ROUTE QUESTION---
-2024-08-22 17:28:15,944 | OUTPUT | ---ROUTE QUESTION TO WEB SEARCH---
-2024-08-22 17:28:15,951 | OUTPUT | ---WEB SEARCH---
-2024-08-22 17:28:20,489 | OUTPUT | Node 'web_search':
-2024-08-22 17:28:20,489 | OUTPUT | 
+2024-08-23 10:49:30,112 | OUTPUT | {'question': 'Hello', 'chat_history': [], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 10:49:31,430 | OUTPUT | {'grade': 'yes', 'answer': 'Hello. How can I assist you today?'}
+2024-08-23 10:49:31,430 | OUTPUT | {'question': 'Hello', 'answer': 'Hello. How can I assist you today?'}
+2024-08-23 10:49:40,560 | OUTPUT | {'question': 'I am Drag', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?')], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 10:49:41,908 | OUTPUT | {'grade': 'yes', 'answer': "You mentioned earlier that you are Drag. Is there something specific you'd like to talk about or ask?"}
+2024-08-23 10:49:41,908 | OUTPUT | {'question': 'I am Drag', 'answer': "You mentioned earlier that you are Drag. Is there something specific you'd like to talk about or ask?"}
+2024-08-23 10:49:54,366 | OUTPUT | {'question': 'What is Pokemon?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?'), HumanMessage(content='I am Drag'), AIMessage(content="You mentioned earlier that you are Drag. Is there something specific you'd like to talk about or ask?")], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 10:49:55,610 | OUTPUT | {'grade': 'no', 'answer': "I'm here to help with any questions or topics you'd like to discuss, as long as they're not about Road Traffic Regulations or Pokémon."}
+2024-08-23 10:49:55,645 | OUTPUT | ---ROUTE QUESTION---
+2024-08-23 10:49:56,053 | OUTPUT | ---ROUTE QUESTION TO RAG---
+2024-08-23 10:49:56,060 | OUTPUT | ---RETRIEVE---
+2024-08-23 10:49:56,634 | OUTPUT | Node 'retrieve':
+2024-08-23 10:49:56,635 | OUTPUT | 
 ---
 
-2024-08-22 17:28:20,492 | OUTPUT | ---GENERATE---
-2024-08-22 17:28:23,432 | OUTPUT | ---CHECK HALLUCINATIONS---
-2024-08-22 17:28:26,649 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
-2024-08-22 17:28:26,649 | OUTPUT | ---GRADE GENERATION vs QUESTION---
+2024-08-23 10:49:56,638 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-23 10:49:57,045 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 10:49:57,503 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 10:49:58,009 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 10:49:58,436 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 10:49:58,880 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 10:49:58,885 | OUTPUT | ---ASSESS GRADED DOCUMENTS---
+2024-08-23 10:49:58,885 | OUTPUT | ---DECISION: GENERATE---
+2024-08-23 10:49:58,888 | OUTPUT | Node 'grade_documents':
+2024-08-23 10:49:58,888 | OUTPUT | 
+---
+
+2024-08-23 10:49:58,891 | OUTPUT | ---GENERATE---
+2024-08-23 10:49:59,820 | OUTPUT | ---CHECK HALLUCINATIONS---
+2024-08-23 10:50:00,446 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+2024-08-23 10:50:00,446 | OUTPUT | ---GRADE GENERATION vs QUESTION---
+2024-08-23 10:50:00,875 | OUTPUT | ---DECISION: GENERATION ADDRESSES QUESTION---
+2024-08-23 10:50:00,876 | OUTPUT | Node 'generate':
+2024-08-23 10:50:00,876 | OUTPUT | 
+---
+
+2024-08-23 10:50:00,878 | OUTPUT | {'question': 'What is Pokemon?', 'answer': 'Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. The franchise takes place in a shared universe in which humans co-exist with creatures known as Pokémon, a large variety of species endowed with special powers. Pokémon refers to both the franchise itself and the creatures within its fictional universe.'}
+2024-08-23 10:50:11,203 | OUTPUT | {'question': 'WHat is my name?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?'), HumanMessage(content='I am Drag'), AIMessage(content="You mentioned earlier that you are Drag. Is there something specific you'd like to talk about or ask?"), HumanMessage(content='What is Pokemon?'), AIMessage(content='Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. The franchise takes place in a shared universe in which humans co-exist with creatures known as Pokémon, a large variety of species endowed with special powers. Pokémon refers to both the franchise itself and the creatures within its fictional universe.')], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 10:50:12,590 | OUTPUT | {'grade': 'no', 'answer': 'I apologize, I made a mistake. I should not have answered your question about Pokémon. As per our initial conversation, I should not answer questions about Pokémon.'}
+2024-08-23 10:50:12,601 | OUTPUT | ---ROUTE QUESTION---
+2024-08-23 10:50:12,982 | OUTPUT | ---ROUTE QUESTION TO WEB SEARCH---
+2024-08-23 10:50:12,988 | OUTPUT | ---WEB SEARCH---
+2024-08-23 10:50:16,438 | OUTPUT | Node 'web_search':
+2024-08-23 10:50:16,438 | OUTPUT | 
+---
+
+2024-08-23 10:50:16,440 | OUTPUT | ---GENERATE---
+2024-08-23 10:50:17,055 | OUTPUT | ---CHECK HALLUCINATIONS---
+2024-08-23 10:50:17,681 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+2024-08-23 10:50:17,681 | OUTPUT | ---GRADE GENERATION vs QUESTION---
+2024-08-23 10:50:18,076 | OUTPUT | ---DECISION: GENERATION DOES NOT ADDRESS QUESTION---
+2024-08-23 10:50:18,078 | OUTPUT | Node 'generate':
+2024-08-23 10:50:18,078 | OUTPUT | 
+---
+
+2024-08-23 10:50:18,082 | OUTPUT | ---TRANSFORM QUERY---
+2024-08-23 10:50:18,387 | OUTPUT | Node 'transform_query':
+2024-08-23 10:50:18,387 | OUTPUT | 
+---
+
+2024-08-23 10:50:18,389 | OUTPUT | ---RETRIEVE---
+2024-08-23 10:50:19,409 | OUTPUT | Node 'retrieve':
+2024-08-23 10:50:19,409 | OUTPUT | 
+---
+
+2024-08-23 10:50:19,411 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-23 10:50:19,869 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:50:20,282 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:50:20,714 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:50:21,124 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:50:21,676 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:50:21,681 | OUTPUT | ---ASSESS GRADED DOCUMENTS---
+2024-08-23 10:50:21,681 | OUTPUT | ---DECISION: ALL DOCUMENTS ARE NOT RELEVANT TO QUESTION, TRANSFORM QUERY---
+2024-08-23 10:50:21,683 | OUTPUT | Node 'grade_documents':
+2024-08-23 10:50:21,683 | OUTPUT | 
+---
+
+2024-08-23 10:50:21,685 | OUTPUT | ---TRANSFORM QUERY---
+2024-08-23 10:50:22,008 | OUTPUT | Node 'transform_query':
+2024-08-23 10:50:22,008 | OUTPUT | 
+---
+
+2024-08-23 10:50:22,010 | OUTPUT | ---RETRIEVE---
+2024-08-23 10:50:22,561 | OUTPUT | Node 'retrieve':
+2024-08-23 10:50:22,561 | OUTPUT | 
+---
+
+2024-08-23 10:50:22,564 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-23 10:50:23,021 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:50:23,512 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:50:23,955 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:50:24,384 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:50:24,813 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:50:24,817 | OUTPUT | ---ASSESS GRADED DOCUMENTS---
+2024-08-23 10:50:24,818 | OUTPUT | ---DECISION: ALL DOCUMENTS ARE NOT RELEVANT TO QUESTION, TRANSFORM QUERY---
+2024-08-23 10:50:24,819 | OUTPUT | Node 'grade_documents':
+2024-08-23 10:50:24,820 | OUTPUT | 
+---
+
+2024-08-23 10:50:24,822 | OUTPUT | ---TRANSFORM QUERY---
+2024-08-23 10:50:25,134 | OUTPUT | Node 'transform_query':
+2024-08-23 10:50:25,134 | OUTPUT | 
+---
+
+2024-08-23 10:50:25,136 | OUTPUT | ---RETRIEVE---
+2024-08-23 10:50:25,697 | OUTPUT | Node 'retrieve':
+2024-08-23 10:50:25,697 | OUTPUT | 
+---
+
+2024-08-23 10:50:25,700 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-23 10:50:26,169 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:52:27,024 | OUTPUT | {'question': 'Hello', 'chat_history': [], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 10:52:28,113 | OUTPUT | {'grade': 'yes', 'answer': 'Hello. How can I assist you today?'}
+2024-08-23 10:52:28,113 | OUTPUT | {'question': 'Hello', 'answer': 'Hello. How can I assist you today?'}
+2024-08-23 10:52:36,815 | OUTPUT | {'question': 'I am Drag', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?')], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 10:52:37,952 | OUTPUT | {'grade': 'yes', 'answer': 'By the way, I noticed you said "I am Drag" earlier. Is there something specific you\'d like to talk about or is that just a fun introduction?'}
+2024-08-23 10:52:37,952 | OUTPUT | {'question': 'I am Drag', 'answer': 'By the way, I noticed you said "I am Drag" earlier. Is there something specific you\'d like to talk about or is that just a fun introduction?'}
+2024-08-23 10:52:48,854 | OUTPUT | {'question': 'What is Pokemon?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?'), HumanMessage(content='I am Drag'), AIMessage(content='By the way, I noticed you said "I am Drag" earlier. Is there something specific you\'d like to talk about or is that just a fun introduction?')], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 10:52:49,988 | OUTPUT | {'grade': 'no', 'answer': "Also, I remember you asked about Pokémon earlier. I'll get back to that question later, as per our chat rules."}
+2024-08-23 10:52:50,021 | OUTPUT | ---ROUTE QUESTION---
+2024-08-23 10:52:50,431 | OUTPUT | ---ROUTE QUESTION TO RAG---
+2024-08-23 10:52:50,437 | OUTPUT | ---RETRIEVE---
+2024-08-23 10:52:50,972 | OUTPUT | Node 'retrieve':
+2024-08-23 10:52:50,972 | OUTPUT | 
+---
+
+2024-08-23 10:52:50,975 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-23 10:52:52,106 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 10:52:52,583 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 10:52:52,994 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 10:52:53,445 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 10:52:53,880 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 10:52:53,885 | OUTPUT | ---ASSESS GRADED DOCUMENTS---
+2024-08-23 10:52:53,886 | OUTPUT | ---DECISION: GENERATE---
+2024-08-23 10:52:53,888 | OUTPUT | Node 'grade_documents':
+2024-08-23 10:52:53,888 | OUTPUT | 
+---
+
+2024-08-23 10:52:53,891 | OUTPUT | ---GENERATE---
+2024-08-23 10:52:54,757 | OUTPUT | ---CHECK HALLUCINATIONS---
+2024-08-23 10:52:55,430 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+2024-08-23 10:52:55,430 | OUTPUT | ---GRADE GENERATION vs QUESTION---
+2024-08-23 10:52:55,848 | OUTPUT | ---DECISION: GENERATION ADDRESSES QUESTION---
+2024-08-23 10:52:55,849 | OUTPUT | Node 'generate':
+2024-08-23 10:52:55,849 | OUTPUT | 
+---
+
+2024-08-23 10:52:55,851 | OUTPUT | {'question': 'What is Pokemon?', 'answer': "Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages."}
+2024-08-23 10:53:07,753 | OUTPUT | {'question': 'What is my name?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?'), HumanMessage(content='I am Drag'), AIMessage(content='By the way, I noticed you said "I am Drag" earlier. Is there something specific you\'d like to talk about or is that just a fun introduction?'), HumanMessage(content='What is Pokemon?'), AIMessage(content="Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages.")], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 10:53:08,917 | OUTPUT | {'grade': 'no', 'answer': 'Wait, I apologize, I made a mistake. I should not have answered your question about Pokémon instantly. I will put the answer in the chat history later.'}
+2024-08-23 10:53:08,928 | OUTPUT | ---ROUTE QUESTION---
+2024-08-23 10:53:09,600 | OUTPUT | ---ROUTE QUESTION TO WEB SEARCH---
+2024-08-23 10:53:09,607 | OUTPUT | ---WEB SEARCH---
+2024-08-23 10:53:13,095 | OUTPUT | Node 'web_search':
+2024-08-23 10:53:13,096 | OUTPUT | 
+---
+
+2024-08-23 10:53:13,098 | OUTPUT | ---GENERATE---
+2024-08-23 10:53:13,648 | OUTPUT | ---CHECK HALLUCINATIONS---
+2024-08-23 10:53:14,267 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+2024-08-23 10:53:14,267 | OUTPUT | ---GRADE GENERATION vs QUESTION---
+2024-08-23 10:53:14,646 | OUTPUT | ---DECISION: GENERATION DOES NOT ADDRESS QUESTION---
+2024-08-23 10:53:14,648 | OUTPUT | Node 'generate':
+2024-08-23 10:53:14,648 | OUTPUT | 
+---
+
+2024-08-23 10:53:14,652 | OUTPUT | ---TRANSFORM QUERY---
+2024-08-23 10:53:14,968 | OUTPUT | Node 'transform_query':
+2024-08-23 10:53:14,968 | OUTPUT | 
+---
+
+2024-08-23 10:53:14,970 | OUTPUT | ---RETRIEVE---
+2024-08-23 10:53:15,942 | OUTPUT | Node 'retrieve':
+2024-08-23 10:53:15,942 | OUTPUT | 
+---
+
+2024-08-23 10:53:15,945 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-23 10:53:16,393 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:53:16,856 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:53:17,286 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:53:17,705 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:53:18,231 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:53:18,236 | OUTPUT | ---ASSESS GRADED DOCUMENTS---
+2024-08-23 10:53:18,236 | OUTPUT | ---DECISION: ALL DOCUMENTS ARE NOT RELEVANT TO QUESTION, TRANSFORM QUERY---
+2024-08-23 10:53:18,238 | OUTPUT | Node 'grade_documents':
+2024-08-23 10:53:18,238 | OUTPUT | 
+---
+
+2024-08-23 10:53:18,240 | OUTPUT | ---TRANSFORM QUERY---
+2024-08-23 10:53:18,553 | OUTPUT | Node 'transform_query':
+2024-08-23 10:53:18,553 | OUTPUT | 
+---
+
+2024-08-23 10:53:18,555 | OUTPUT | ---RETRIEVE---
+2024-08-23 10:53:19,073 | OUTPUT | Node 'retrieve':
+2024-08-23 10:53:19,074 | OUTPUT | 
+---
+
+2024-08-23 10:53:19,076 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-23 10:53:19,504 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:53:20,021 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:53:20,428 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:53:20,871 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:53:21,298 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 10:53:21,303 | OUTPUT | ---ASSESS GRADED DOCUMENTS---
+2024-08-23 10:53:21,303 | OUTPUT | ---DECISION: ALL DOCUMENTS ARE NOT RELEVANT TO QUESTION, TRANSFORM QUERY---
+2024-08-23 10:53:21,305 | OUTPUT | Node 'grade_documents':
+2024-08-23 10:53:21,305 | OUTPUT | 
+---
+
+2024-08-23 10:53:21,307 | OUTPUT | ---TRANSFORM QUERY---
+2024-08-23 10:53:21,617 | OUTPUT | Node 'transform_query':
+2024-08-23 10:53:21,617 | OUTPUT | 
+---
+
+2024-08-23 10:53:21,619 | OUTPUT | ---RETRIEVE---
+2024-08-23 10:54:33,286 | OUTPUT | {'question': 'hello', 'chat_history': [], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 10:54:34,353 | OUTPUT | {'grade': 'yes', 'answer': 'Hello. How can I assist you today?'}
+2024-08-23 10:54:34,353 | OUTPUT | {'question': 'hello', 'answer': 'Hello. How can I assist you today?'}
+2024-08-23 10:54:43,431 | OUTPUT | {'question': 'I am Drag', 'chat_history': [HumanMessage(content='hello'), AIMessage(content='Hello. How can I assist you today?')], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 10:54:44,481 | OUTPUT | {'grade': 'no', 'answer': "(Remember, I'll answer your questions about Road Traffic Regulations and Pokémon later.)"}
+2024-08-23 10:54:44,515 | OUTPUT | ---ROUTE QUESTION---
+2024-08-23 10:54:44,900 | OUTPUT | ---ROUTE QUESTION TO WEB SEARCH---
+2024-08-23 10:54:44,906 | OUTPUT | ---WEB SEARCH---
+2024-08-23 10:54:48,131 | OUTPUT | Node 'web_search':
+2024-08-23 10:54:48,131 | OUTPUT | 
+---
+
+2024-08-23 10:54:48,134 | OUTPUT | ---GENERATE---
+2024-08-23 10:54:48,746 | OUTPUT | ---CHECK HALLUCINATIONS---
+2024-08-23 10:54:49,475 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+2024-08-23 10:54:49,475 | OUTPUT | ---GRADE GENERATION vs QUESTION---
+2024-08-23 10:54:49,858 | OUTPUT | ---DECISION: GENERATION ADDRESSES QUESTION---
+2024-08-23 10:54:49,859 | OUTPUT | Node 'generate':
+2024-08-23 10:54:49,859 | OUTPUT | 
+---
+
+2024-08-23 10:54:49,861 | OUTPUT | {'question': 'I am Drag', 'answer': "As a drag queen, you are part of a culture of queer people who wear feminine makeup and clothing, and perform through various forms of entertainment. Drag gives you a sense of protection and empowerment, making you feel like a warrior. It's a way to express yourself and be part of a community that promotes self-expression and acceptance."}
+2024-08-23 11:05:56,136 | OUTPUT | {'question': 'Hello', 'chat_history': [], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 11:05:57,414 | OUTPUT | {'grade': 'yes', 'answer': 'Hello. How can I assist you today?'}
+2024-08-23 11:05:57,414 | OUTPUT | {'question': 'Hello', 'answer': 'Hello. How can I assist you today?'}
+2024-08-23 11:06:09,389 | OUTPUT | {'question': 'I am Drag', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?')], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 11:06:10,505 | OUTPUT | {'grade': 'yes', 'answer': "Hello Drag, it's nice to meet you. How can I assist you today?"}
+2024-08-23 11:06:10,506 | OUTPUT | {'question': 'I am Drag', 'answer': "Hello Drag, it's nice to meet you. How can I assist you today?"}
+2024-08-23 11:06:20,068 | OUTPUT | {'question': 'What is Pokemon?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?'), HumanMessage(content='I am Drag'), AIMessage(content="Hello Drag, it's nice to meet you. How can I assist you today?")], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 11:06:21,240 | OUTPUT | {'grade': 'no', 'answer': "I'm happy to chat with you, Drag. However, I'm not able to provide information on Pokémon as it falls under one of the restricted topics. Is there anything else I can help you with?"}
+2024-08-23 11:06:21,275 | OUTPUT | ---ROUTE QUESTION---
+2024-08-23 11:06:21,679 | OUTPUT | ---ROUTE QUESTION TO RAG---
+2024-08-23 11:06:21,685 | OUTPUT | ---RETRIEVE---
+2024-08-23 11:06:22,235 | OUTPUT | Node 'retrieve':
+2024-08-23 11:06:22,235 | OUTPUT | 
+---
+
+2024-08-23 11:06:22,239 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-23 11:06:22,653 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:06:23,080 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:06:23,503 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:06:23,950 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:06:24,398 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:06:24,403 | OUTPUT | ---ASSESS GRADED DOCUMENTS---
+2024-08-23 11:06:24,403 | OUTPUT | ---DECISION: GENERATE---
+2024-08-23 11:06:24,406 | OUTPUT | Node 'grade_documents':
+2024-08-23 11:06:24,406 | OUTPUT | 
+---
+
+2024-08-23 11:06:24,409 | OUTPUT | ---GENERATE---
+2024-08-23 11:06:25,262 | OUTPUT | ---CHECK HALLUCINATIONS---
+2024-08-23 11:06:25,941 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+2024-08-23 11:06:25,941 | OUTPUT | ---GRADE GENERATION vs QUESTION---
+2024-08-23 11:06:26,337 | OUTPUT | ---DECISION: GENERATION ADDRESSES QUESTION---
+2024-08-23 11:06:26,338 | OUTPUT | Node 'generate':
+2024-08-23 11:06:26,338 | OUTPUT | 
+---
+
+2024-08-23 11:06:26,341 | OUTPUT | {'question': 'What is Pokemon?', 'answer': "Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages."}
+2024-08-23 11:06:34,806 | OUTPUT | {'question': 'What is my name?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?'), HumanMessage(content='I am Drag'), AIMessage(content="Hello Drag, it's nice to meet you. How can I assist you today?"), HumanMessage(content='What is Pokemon?'), AIMessage(content="Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages.")], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 11:06:35,900 | OUTPUT | {'grade': 'yes', 'answer': 'Your name is Drag.'}
+2024-08-23 11:06:35,900 | OUTPUT | {'question': 'What is my name?', 'answer': 'Your name is Drag.'}
+2024-08-23 11:07:10,315 | OUTPUT | {'question': 'What is pokemon?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?'), HumanMessage(content='I am Drag'), AIMessage(content="Hello Drag, it's nice to meet you. How can I assist you today?"), HumanMessage(content='What is Pokemon?'), AIMessage(content="Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages."), HumanMessage(content='What is my name?'), AIMessage(content='Your name is Drag.')], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 11:07:11,608 | OUTPUT | {'grade': 'no', 'answer': "I'm sorry, Drag, but I'm not allowed to respond to questions about Pokémon. Is there something else I can help you with?"}
+2024-08-23 11:07:11,621 | OUTPUT | ---ROUTE QUESTION---
+2024-08-23 11:07:12,024 | OUTPUT | ---ROUTE QUESTION TO RAG---
+2024-08-23 11:07:12,029 | OUTPUT | ---RETRIEVE---
+2024-08-23 11:07:12,589 | OUTPUT | Node 'retrieve':
+2024-08-23 11:07:12,589 | OUTPUT | 
+---
+
+2024-08-23 11:07:12,592 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-23 11:07:13,010 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:07:13,601 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:07:14,104 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:07:14,546 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:07:14,974 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:07:14,979 | OUTPUT | ---ASSESS GRADED DOCUMENTS---
+2024-08-23 11:07:14,980 | OUTPUT | ---DECISION: GENERATE---
+2024-08-23 11:07:14,982 | OUTPUT | Node 'grade_documents':
+2024-08-23 11:07:14,982 | OUTPUT | 
+---
+
+2024-08-23 11:07:14,985 | OUTPUT | ---GENERATE---
+2024-08-23 11:07:15,848 | OUTPUT | ---CHECK HALLUCINATIONS---
+2024-08-23 11:07:16,538 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+2024-08-23 11:07:16,539 | OUTPUT | ---GRADE GENERATION vs QUESTION---
+2024-08-23 11:07:16,955 | OUTPUT | ---DECISION: GENERATION ADDRESSES QUESTION---
+2024-08-23 11:07:16,956 | OUTPUT | Node 'generate':
+2024-08-23 11:07:16,956 | OUTPUT | 
+---
+
+2024-08-23 11:07:16,958 | OUTPUT | {'question': 'What is pokemon?', 'answer': "Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages."}
+2024-08-23 11:07:28,232 | OUTPUT | {'question': 'WHat is my name?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?'), HumanMessage(content='I am Drag'), AIMessage(content="Hello Drag, it's nice to meet you. How can I assist you today?"), HumanMessage(content='What is Pokemon?'), AIMessage(content="Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages."), HumanMessage(content='What is my name?'), AIMessage(content='Your name is Drag.'), HumanMessage(content='What is pokemon?'), AIMessage(content="Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages.")], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 11:07:29,293 | OUTPUT | {'grade': 'yes', 'answer': 'Your name is Drag.'}
+2024-08-23 11:07:29,293 | OUTPUT | {'question': 'WHat is my name?', 'answer': 'Your name is Drag.'}
+2024-08-23 11:07:41,083 | OUTPUT | {'question': 'What is your name?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?'), HumanMessage(content='I am Drag'), AIMessage(content="Hello Drag, it's nice to meet you. How can I assist you today?"), HumanMessage(content='What is Pokemon?'), AIMessage(content="Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages."), HumanMessage(content='What is my name?'), AIMessage(content='Your name is Drag.'), HumanMessage(content='What is pokemon?'), AIMessage(content="Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages."), HumanMessage(content='WHat is my name?'), AIMessage(content='Your name is Drag.')], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 11:07:42,339 | OUTPUT | {'grade': 'yes', 'answer': "I'm a helpful assistant, I don't have a personal name, but I'm here to assist you with any questions or information you need."}
+2024-08-23 11:07:42,340 | OUTPUT | {'question': 'What is your name?', 'answer': "I'm a helpful assistant, I don't have a personal name, but I'm here to assist you with any questions or information you need."}
+2024-08-23 11:07:53,330 | OUTPUT | {'question': 'What is the weather today in Hanoi?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?'), HumanMessage(content='I am Drag'), AIMessage(content="Hello Drag, it's nice to meet you. How can I assist you today?"), HumanMessage(content='What is Pokemon?'), AIMessage(content="Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages."), HumanMessage(content='What is my name?'), AIMessage(content='Your name is Drag.'), HumanMessage(content='What is pokemon?'), AIMessage(content="Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages."), HumanMessage(content='WHat is my name?'), AIMessage(content='Your name is Drag.'), HumanMessage(content='What is your name?'), AIMessage(content="I'm a helpful assistant, I don't have a personal name, but I'm here to assist you with any questions or information you need.")], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 11:07:54,810 | OUTPUT | {'grade': 'no', 'answer': "I'm a helpful assistant, but I don't have real-time access to current weather conditions. However, I can suggest some ways for you to find out the weather in Hanoi today. You can check online weather websites such as AccuWeather, Weather.com, or the National Weather Service for the most up-to-date information. Alternatively, you can also check the weather forecast on your smartphone or through a virtual assistant like Siri or Google Assistant."}
+2024-08-23 11:07:54,823 | OUTPUT | ---ROUTE QUESTION---
+2024-08-23 11:07:55,218 | OUTPUT | ---ROUTE QUESTION TO WEB SEARCH---
+2024-08-23 11:07:55,226 | OUTPUT | ---WEB SEARCH---
+2024-08-23 11:08:00,892 | OUTPUT | Node 'web_search':
+2024-08-23 11:08:00,892 | OUTPUT | 
+---
+
+2024-08-23 11:08:00,895 | OUTPUT | ---GENERATE---
+2024-08-23 11:08:02,007 | OUTPUT | ---CHECK HALLUCINATIONS---
+2024-08-23 11:08:02,647 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+2024-08-23 11:08:02,647 | OUTPUT | ---GRADE GENERATION vs QUESTION---
+2024-08-23 11:08:03,155 | OUTPUT | ---DECISION: GENERATION ADDRESSES QUESTION---
+2024-08-23 11:08:03,156 | OUTPUT | Node 'generate':
+2024-08-23 11:08:03,156 | OUTPUT | 
+---
+
+2024-08-23 11:08:03,159 | OUTPUT | {'question': 'What is the weather today in Hanoi?', 'answer': 'The current weather in Hanoi is moderate or heavy rain with thunder, with a temperature of 25.3°C (77.5°F) and a humidity of 94%. The wind speed is 15.1 km/h (9.4 mph) and the precipitation is 0.01 mm.'}
+2024-08-23 11:08:24,971 | OUTPUT | {'question': 'What is Traffic law in Vietnam?', 'chat_history': [HumanMessage(content='Hello'), AIMessage(content='Hello. How can I assist you today?'), HumanMessage(content='I am Drag'), AIMessage(content="Hello Drag, it's nice to meet you. How can I assist you today?"), HumanMessage(content='What is Pokemon?'), AIMessage(content="Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages."), HumanMessage(content='What is my name?'), AIMessage(content='Your name is Drag.'), HumanMessage(content='What is pokemon?'), AIMessage(content="Pokémon is a Japanese media franchise consisting of video games, animated series and films, a trading card game, and other related media. It takes place in a shared universe where humans co-exist with creatures known as Pokémon, which are species endowed with special powers. The franchise's target audience is primarily children, but it attracts people of all ages."), HumanMessage(content='WHat is my name?'), AIMessage(content='Your name is Drag.'), HumanMessage(content='What is your name?'), AIMessage(content="I'm a helpful assistant, I don't have a personal name, but I'm here to assist you with any questions or information you need."), HumanMessage(content='What is the weather today in Hanoi?'), AIMessage(content='The current weather in Hanoi is moderate or heavy rain with thunder, with a temperature of 25.3°C (77.5°F) and a humidity of 94%. The wind speed is 15.1 km/h (9.4 mph) and the precipitation is 0.01 mm.')], 'topics': 'Road Traffic Regulations, Pokémon'}
+2024-08-23 11:08:28,433 | OUTPUT | {'grade': 'no', 'answer': "I'm sorry, but I'm not able to provide information on Road Traffic Regulations. If you have any other questions or need assistance with a different topic, I'd be happy to help."}
+2024-08-23 11:08:28,446 | OUTPUT | ---ROUTE QUESTION---
+2024-08-23 11:08:29,480 | OUTPUT | ---ROUTE QUESTION TO RAG---
+2024-08-23 11:08:29,486 | OUTPUT | ---RETRIEVE---
+2024-08-23 11:08:30,049 | OUTPUT | Node 'retrieve':
+2024-08-23 11:08:30,049 | OUTPUT | 
+---
+
+2024-08-23 11:08:30,052 | OUTPUT | ---CHECK DOCUMENT RELEVANCE TO QUESTION---
+2024-08-23 11:08:33,351 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:08:33,910 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:08:34,420 | OUTPUT | ---GRADE: DOCUMENT RELEVANT---
+2024-08-23 11:08:34,851 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 11:08:35,293 | OUTPUT | ---GRADE: DOCUMENT NOT RELEVANT---
+2024-08-23 11:08:35,298 | OUTPUT | ---ASSESS GRADED DOCUMENTS---
+2024-08-23 11:08:35,298 | OUTPUT | ---DECISION: GENERATE---
+2024-08-23 11:08:35,300 | OUTPUT | Node 'grade_documents':
+2024-08-23 11:08:35,300 | OUTPUT | 
+---
+
+2024-08-23 11:08:35,303 | OUTPUT | ---GENERATE---
+2024-08-23 11:08:36,748 | OUTPUT | ---CHECK HALLUCINATIONS---
+2024-08-23 11:08:37,604 | OUTPUT | ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+2024-08-23 11:08:37,604 | OUTPUT | ---GRADE GENERATION vs QUESTION---
+2024-08-23 11:08:38,057 | OUTPUT | ---DECISION: GENERATION ADDRESSES QUESTION---
+2024-08-23 11:08:38,058 | OUTPUT | Node 'generate':
+2024-08-23 11:08:38,058 | OUTPUT | 
+---
+
+2024-08-23 11:08:38,061 | OUTPUT | {'question': 'What is Traffic law in Vietnam?', 'answer': 'Traffic law in Vietnam is a set of regulations that prescribes road traffic rules, road infrastructure facilities, vehicles in traffic, and road users, as well as road transportation and state management of road traffic. The law applies to organizations and individuals related to road traffic on the territory of the Socialist Republic of Vietnam. It aims to ensure road traffic order and safety, and to develop road traffic in a modern and synchronized manner.'}

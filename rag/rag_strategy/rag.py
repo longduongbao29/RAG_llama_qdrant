@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing_extensions import TypedDict
 from langchain_core.language_models.base import BaseLanguageModel
-from rag.rag_strategy.prompt import rag_prompt, grade_prompt, hallucination_prompt, answer_prompt, re_write_prompt, route_prompt
+from rag.rag_strategy.prompt import first_gen_prompt,rag_prompt, grade_prompt, hallucination_prompt, answer_prompt, re_write_prompt, route_prompt
 from langchain_core.pydantic_v1 import BaseModel, Field
 from typing import List, Literal
 from langchain.schema import Document
@@ -60,6 +60,7 @@ class Rag():
     def __init__(self, llm: BaseLanguageModel, retriever_: BaseRetriever):
         self.llm = llm
         self.retriever_ = retriever_
+        self.first_generate_chain  = first_gen_prompt | llm | StrOutputParser()
         self.rag_chain = rag_prompt | llm | StrOutputParser()
         self.retrieval_grader = grade_prompt | llm.with_structured_output(GradeDocuments)
         self.answer_grader = answer_prompt | llm.with_structured_output(GradeAnswer)
@@ -229,7 +230,13 @@ class Rag():
             logger.output("---DECISION: GENERATE---")
             return "generate"
 
-
+    def first_generate(self, inputs):
+        answer = self.first_generate_chain.invoke(inputs)
+        score = self.answer_grader.invoke({"question": inputs["question"], "generation": answer})
+        grade = score.binary_score
+        logger.output({"grade": grade, "answer":answer})
+        return grade, answer
+        
     def grade_generation_v_documents_and_question(self,state):
         """
         Determines whether the generation is grounded in the document and answers question.
@@ -267,11 +274,20 @@ class Rag():
         else:
             logger.output("---DECISION: GENERATION IS NOT GROUNDED IN DOCUMENTS, RE-TRY---")
             return "not supported"
+    def get_retriever_topics(self):
+        from init import vars
+        collections = vars.qdrant_client.client.get_collections().collections
+        collection_names = [collection.name for collection in collections]
+        return ", ".join(collection_names)
     @abstractmethod
     def build_graph(self) -> None:
         """Build graph 
         """
     def run(self, inputs:dict):
+        inputs["topics"] = self.get_retriever_topics()
+        grade, answer = self.first_generate(inputs)
+        if grade == "yes":
+            return answer
         for output in self.app.stream(inputs):
             for key, value in output.items():
                 # Node
