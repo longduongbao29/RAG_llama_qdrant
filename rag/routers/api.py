@@ -52,7 +52,7 @@ def retriever(question: Question, mode: RetrieverSchema):
 
 
 @router.post("/ask")
-async def ask(question: Question, retrieval_schema: RetrieverSchema,strategy : StrategyEnum, history):
+async def ask(question: Question, retrieval_schema: RetrieverSchema,strategy_ : StrategyEnum, history):
     """
     This function generates an answer to a given question using an Agent including search_tool and retriever_tool.
 
@@ -69,19 +69,15 @@ async def ask(question: Question, retrieval_schema: RetrieverSchema,strategy : S
             model=vars.retriever_llm,
             retriever_methods=get_multiple_retriever(retrieval_schema.mode),
         )
-        strategy = get_strategy(strategy, vars.retriever_llm, retriever)
+        strategy = get_strategy(strategy_, vars.retriever_llm, retriever)
         strategy.build_graph()
         inputs = {
             "question": question,
             "chat_history": history,
         }
-        
-        # chatbot = ChatBotGen(vars.retriever_llm, strategy)
-        # answer = chatbot.run(inputs)
+       
         answer = strategy.run(inputs)
-        # agent = Agent(vars.tool_use_llm, retriever)
-        # agent.update_description_retriever_tool(vars.qdrant_client.client)
-        # answer = agent.run({"input": question, "chat_history": history})
+ 
         logger.output({"question": question, "answer": answer})
     except Exception as e:
         return {"message": f"Failed to generate answer: {str(e)}"}

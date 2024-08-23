@@ -5,6 +5,7 @@ default_template = """From following context, answer the question:
 {context}
 
 Question: {question}
+Return (1-5 sentences):
 """
 default_prompt = ChatPromptTemplate.from_template(default_template)
 
@@ -61,6 +62,7 @@ Here is additional context relevant to the question:
 \n --- \n {context} \n --- \n
 
 Use the above context and any background question + answer pairs to answer the question: \n {question}
+Return (1-5 sentences):
 """
 
 recursive_decomposition_prompt = ChatPromptTemplate.from_template(
@@ -71,7 +73,7 @@ individual_decomposition_template = """Here is a set of Q+A pairs:
 
 {context}
 
-Use these to synthesize an answer to the question: {question}
+Use these to synthesize an answer (1-5 sentences) to the question: {question}
 """
 individual_decomposition_prompt = ChatPromptTemplate.from_template(
     individual_decomposition_template
@@ -118,7 +120,7 @@ generate_prompt_template = """You are an expert of world knowledge. I am going t
 # {step_back_context}
 
 # Original Question: {question}
-# Answer:"""
+# Return (1-5 sentences):"""
 generate_step_back_prompt = ChatPromptTemplate.from_template(generate_prompt_template)
 
 # HyDE

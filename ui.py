@@ -127,14 +127,14 @@ def create_app():
 # Launch the app
 # ui_app = create_app()
 # ui_app.launch(server_port=1234, share=True)  # Set share=True to create a public link
-ui_app = FastAPI()
+app = FastAPI()
 favicon_path = "static/chatbot.ico"
-ui_app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
-@ui_app.get("/favicon.ico", include_in_schema=False)
+@app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     return FileResponse(favicon_path)
 
 
-ui_app = gr.mount_gradio_app(ui_app, create_app(), path="/")
+ui_app = gr.mount_gradio_app(app, create_app(), path="/")

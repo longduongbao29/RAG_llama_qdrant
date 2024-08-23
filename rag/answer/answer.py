@@ -30,41 +30,46 @@ class Generate:
         self.prompt = retriever.generate_prompt
         self.chain = self.prompt | self.llm | StrOutputParser()
 
-    def _run(self, question: str):
-        response = None
+    def run(self, question: str):
         if isinstance(self.retriever, QueryDecompostion):
-            response = self.decomposition_generate(question)
+            response, docs = self.decomposition_generate(question)
         else:
-            response = self.default_generate(question)
-        return response
+            response, docs = self.default_generate(question)
+        return response , docs
 
     def default_generate(self, question):
         """LLM generate for multi-query, rag-fusion, Stepback, HyDE"""
-        input_vars = self.retriever.get_input_vars(question)
-        answer = self.chain.invoke(input_vars)
-        return answer
-
+        docs = self.get_context(self.retriever.invoke(input=question))
+        answer = self.chain.invoke({"question":question, "context": docs})
+        return answer, docs
+    def get_context(self, docs):
+        contexts = []
+        for doc in docs:
+            contexts.append("\n".join([doc.metadata["title"],doc.page_content]))
+        return contexts
     def decomposition_generate(self, question):
         """Generate for Query Decomposition"""
         if self.retriever.decomposition_mode == "recursive":
             questions = self.retriever.generate_queries(question)
             answer = ""
             q_a_pairs = ""
+            docs = []
             for q in questions:
-                docs = self.retriever.invoke(question)
-                page_contents = self.retriever.get_page_contents(docs)
-                context = self.retriever.get_context(page_contents)
+                context = self.get_context(
+                    self.retriever.invoke(input=q))
+                docs.extend(context)
                 answer = self.chain.invoke(
                     {"question": q, "q_a_pairs": q_a_pairs, "context": context}
                 )
                 q_a_pair = self.retriever.format_qa_pairs(q, answer)
                 q_a_pairs = q_a_pairs + "\n---\n" + q_a_pair
-            return answer
+            return answer, docs
         else:
             prompt_rag = hub.pull("rlm/rag-prompt")
-            answers, questions = self.retriever.retrieve_and_rag(
+
+            answers, questions, docs = self.retriever.retrieve_and_rag(
                 question, prompt_rag, self.retriever.generate_queries
             )
             context = self.retriever.format_qa_pairs(questions, answers)
             final_answer = self.chain.invoke({"context": context, "question": question})
-            return final_answer
+            return final_answer, docs

@@ -117,7 +117,7 @@ class Rag():
         Returns:
             state (dict): New key added to state, generation, that contains LLM generation
         """
-        logger.output("---GENERATE---")
+        # logger.output("---GENERATE---")
         question = state["question"]
         documents = state["documents"]
         chat_history = state["chat_history"]

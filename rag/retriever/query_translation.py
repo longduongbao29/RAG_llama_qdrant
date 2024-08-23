@@ -202,19 +202,19 @@ class QueryDecompostion(Retriever):
 
         # Initialize a list to hold RAG chain results
         rag_results = []
-
+        docs = []
         for sub_question in sub_questions:
 
             # Retrieve documents for each sub-question
             retrieved_docs = self._get_relevant_documents(sub_question)
-
+            docs.append(retrieved_docs)
             # Use retrieved documents and sub-question in RAG chain
             answer = (prompt_rag | self.model | StrOutputParser()).invoke(
                 {"context": retrieved_docs, "question": sub_question}
             )
             rag_results.append(answer)
 
-        return rag_results, sub_questions
+        return rag_results, sub_questions, docs
 
     # Wrap the retrieval and RAG process in a RunnableLambda for integration into a chain
 
