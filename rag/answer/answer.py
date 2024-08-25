@@ -35,34 +35,37 @@ class Generate:
             response, docs = self.decomposition_generate(question)
         else:
             response, docs = self.default_generate(question)
-        return response , docs
+        return response, docs
 
     def default_generate(self, question):
         """LLM generate for multi-query, rag-fusion, Stepback, HyDE"""
         docs = self.get_context(self.retriever.invoke(input=question))
-        answer = self.chain.invoke({"question":question, "context": docs})
+        answer = self.chain.invoke({"question": question, "context": docs})
         return answer, docs
+
     def get_context(self, docs):
         contexts = []
         for doc in docs:
-            contexts.append("\n".join([doc.metadata["title"],doc.page_content]))
+            contexts.append("\n".join([doc.metadata["title"], doc.page_content]))
         return contexts
+
     def decomposition_generate(self, question):
         """Generate for Query Decomposition"""
         if self.retriever.decomposition_mode == "recursive":
             questions = self.retriever.generate_queries(question)
             answer = ""
             q_a_pairs = ""
+            docs = []
             for q in questions:
-                context = self.get_context(
-                    self.retriever.invoke(input=q))
-               
+                context = self.get_context(self.retriever.invoke(input=q))
+
                 answer = self.chain.invoke(
                     {"question": q, "q_a_pairs": q_a_pairs, "context": context}
                 )
                 q_a_pair = self.retriever.format_qa_pairs(q, answer)
                 q_a_pairs = q_a_pairs + "\n---\n" + q_a_pair
-            return answer, context.append(q_a_pairs)
+                docs = context.append(q_a_pairs)
+            return answer, docs
         else:
             prompt_rag = hub.pull("rlm/rag-prompt")
 
@@ -70,5 +73,5 @@ class Generate:
                 question, prompt_rag, self.retriever.generate_queries
             )
             context = self.retriever.format_qa_pairs(questions, answers)
-            final_answer = self.chain.invoke({"context": context , "question": question})
+            final_answer = self.chain.invoke({"context": context, "question": question})
             return final_answer, self.get_context(docs)
