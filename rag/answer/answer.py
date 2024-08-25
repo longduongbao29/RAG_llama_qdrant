@@ -53,17 +53,16 @@ class Generate:
             questions = self.retriever.generate_queries(question)
             answer = ""
             q_a_pairs = ""
-            docs = []
             for q in questions:
                 context = self.get_context(
                     self.retriever.invoke(input=q))
-                docs.extend(context)
+               
                 answer = self.chain.invoke(
                     {"question": q, "q_a_pairs": q_a_pairs, "context": context}
                 )
                 q_a_pair = self.retriever.format_qa_pairs(q, answer)
                 q_a_pairs = q_a_pairs + "\n---\n" + q_a_pair
-            return answer, docs
+            return answer, context.append(q_a_pairs)
         else:
             prompt_rag = hub.pull("rlm/rag-prompt")
 
@@ -71,5 +70,5 @@ class Generate:
                 question, prompt_rag, self.retriever.generate_queries
             )
             context = self.retriever.format_qa_pairs(questions, answers)
-            final_answer = self.chain.invoke({"context": context, "question": question})
-            return final_answer, docs
+            final_answer = self.chain.invoke({"context": context , "question": question})
+            return final_answer, self.get_context(docs)

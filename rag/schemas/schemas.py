@@ -14,7 +14,6 @@ class ModeEnum(str, Enum):
     bm25 = "bm25"
 
 class StrategyEnum(str, Enum):
-    default = "default"
     self_rag = "self-rag"
     c_rag = "c-rag"
     adaptive_rag = "adaptive-rag"

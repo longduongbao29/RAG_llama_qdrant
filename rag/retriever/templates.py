@@ -73,7 +73,8 @@ individual_decomposition_template = """Here is a set of Q+A pairs:
 
 {context}
 
-Use these to synthesize an answer (1-5 sentences) to the question: {question}
+Use these to synthesize an answer to the question: {question}
+Return (1-5 sentences):
 """
 individual_decomposition_prompt = ChatPromptTemplate.from_template(
     individual_decomposition_template

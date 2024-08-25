@@ -19,7 +19,7 @@ class InitVariable:
         self.retriever_llm = ChatGroq(
             api_key=config.groq_api_key,
             model="llama3-70b-8192",
-            temperature=0.1,
+            temperature=0.2,
         )
 
 

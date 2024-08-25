@@ -213,8 +213,8 @@ class QueryDecompostion(Retriever):
                 {"context": retrieved_docs, "question": sub_question}
             )
             rag_results.append(answer)
-
-        return rag_results, sub_questions, docs
+        docs_ = [doc for doc, score in reciprocal_rank_fusion(docs)]
+        return rag_results, sub_questions, docs_[:self.k]
 
     # Wrap the retrieval and RAG process in a RunnableLambda for integration into a chain
 

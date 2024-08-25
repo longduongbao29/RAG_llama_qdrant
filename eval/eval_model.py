@@ -1,7 +1,7 @@
 
 from deepeval.models import DeepEvalBaseLLM
 from groq import Groq
-class CustomLlama3_70B(DeepEvalBaseLLM):
+class CustomLlama3(DeepEvalBaseLLM):
     def __init__(self):
         self.client = Groq()
         self.completion = self.client.chat.completions
@@ -14,7 +14,7 @@ class CustomLlama3_70B(DeepEvalBaseLLM):
             model="gemma2-9b-it",
             messages=[
                 {
-                    "role": "user",
+                    "role": "system",
                     "content": prompt
                 }
             ],

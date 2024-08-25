@@ -44,7 +44,7 @@ async def ask_question(history, question, mode, strategy):
         response = await api.ask(
             question=Question(question=question),
             retrieval_schema=RetrieverSchema(mode=mode),
-            strategy= StrategyEnum(value= strategy),
+            strategy_=StrategyEnum(value=strategy),
             history=format_history(history),
         )
 
@@ -85,7 +85,7 @@ def create_app():
                     strategy = gr.Dropdown(
                         label="Select Strategy",
                         choices=[st.value for st in StrategyEnum],
-                        value="adaptive-rag",
+                        value="c-rag",
                     )
 
                 clear_button = gr.Button("❌Clear Chat")
