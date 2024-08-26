@@ -2,6 +2,7 @@ from qdrant.client import Qdrant_Client
 from langchain_groq import ChatGroq
 from rag.config.config import Config
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
+from langchain_community.llms import Ollama
 
 config = Config()
 
@@ -21,6 +22,7 @@ class InitVariable:
             model="llama3-70b-8192",
             temperature=0.2,
         )
+        # self.retriever_llm = Ollama(model="llama3.1:8b")
 
 
 vars = InitVariable()
