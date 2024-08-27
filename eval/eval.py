@@ -1,4 +1,5 @@
-from eval.eval_model import CustomLlama3
+from pydantic import GenerateSchema
+from eval.eval_model import CustomLlama3, Gemma2
 from deepeval import evaluate
 from deepeval.metrics import (
     ContextualPrecisionMetric,
@@ -11,11 +12,11 @@ from eval.preprocess import write_to_csv
 import ast
 from deepeval.test_case import LLMTestCase
 from logs.loging import logger
-from rag.retriever.query_translation import MultiQuery, Retriever, RAGFusion, QueryDecompostion
+from rag.retriever.query_translation import MultiQuery, Retriever, RAGFusion, QueryDecompostion, StepBack
 from rag.answer.answer import Generate
 from init import vars
 
-model = CustomLlama3()
+model = Gemma2()
 
 contextual_precision = ContextualPrecisionMetric(model=model, include_reason=False)
 contextual_recall = ContextualRecallMetric(model=model, include_reason=False)
@@ -26,8 +27,8 @@ faithfulness = FaithfulnessMetric(model=model, include_reason=False)
 import csv
 
 # Đường dẫn đến file CSV
-file_path = "data/covidqa_recursive_decomposition.csv"
-retriever = QueryDecompostion(vars.retriever_llm, mode= "recursive")
+file_path = "data/covidqa_step_back.csv"
+retriever = StepBack(vars.retriever_llm)
 generate = Generate(vars.retriever_llm, retriever)
 
 write_to_csv(file_path, generate)

@@ -1,3 +1,4 @@
+from torch import le
 import rag.retriever.templates as templates
 from langchain_core.output_parsers import StrOutputParser
 from langchain.load import dumps, loads
@@ -253,7 +254,9 @@ class StepBack(Retriever):
             "step_back_context": step_back_context,
             "question": question,
         }
-        return input_vars, normal_docs.extend(step_back_docs)
+        docs = normal_docs.extend(step_back_docs)
+        print(f"Step back docs {len(docs)}")
+        return input_vars, docs
 
 
 class HyDE(Retriever):
