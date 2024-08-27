@@ -254,8 +254,9 @@ class StepBack(Retriever):
             "step_back_context": step_back_context,
             "question": question,
         }
-        docs = normal_docs.extend(step_back_docs)
-        print(f"Step back docs {len(docs)}")
+        docs = self.get_page_contents(normal_docs)
+        docs.extend(docs_content)
+        
         return input_vars, docs
 
 

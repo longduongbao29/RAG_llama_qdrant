@@ -57,14 +57,17 @@ class Generate:
             q_a_pairs = ""
             docs = []
             for q in questions:
-                context = self.get_context(self.retriever.invoke(input=q))
+                context = self.retriever.get_page_contents(
+                    self.retriever._get_relevant_documents(q)
+                )
 
                 answer = self.chain.invoke(
                     {"question": q, "q_a_pairs": q_a_pairs, "context": context}
                 )
                 q_a_pair = self.retriever.format_qa_pairs(q, answer)
                 q_a_pairs = q_a_pairs + "\n---\n" + q_a_pair
-                docs = context.append(q_a_pairs)
+                docs = context
+                docs.append(q_a_pairs)
             return answer, docs
         else:
             prompt_rag = hub.pull("rlm/rag-prompt")
