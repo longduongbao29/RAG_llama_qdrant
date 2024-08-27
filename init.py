@@ -1,9 +1,9 @@
 from qdrant.client import Qdrant_Client
 from langchain_groq import ChatGroq
-from rag.config.config import Config
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_community.llms import Ollama
 
+from rag.config.config import Config
 config = Config()
 
 

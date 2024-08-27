@@ -39,8 +39,8 @@ class Generate:
 
     def default_generate(self, question):
         """LLM generate for multi-query, rag-fusion, Stepback, HyDE"""
-        docs = self.get_context(self.retriever.invoke(input=question))
-        answer = self.chain.invoke({"question": question, "context": docs})
+        inputs, docs = self.retriever.get_input_vars(question)
+        answer = self.chain.invoke(inputs)
         return answer, docs
 
     def get_context(self, docs):

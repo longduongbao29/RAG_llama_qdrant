@@ -86,7 +86,7 @@ class Retriever(BaseRetriever):
         docs = self._get_relevant_documents(question)
         page_contents = self.get_page_contents(docs)
         context = self.get_context(page_contents)
-        return {"question": question, "context": context}
+        return {"question": question, "context": context}, docs
 
     def flatten_docs(self, docs):
         """Flatten documents' array from retrieved documents
@@ -171,7 +171,7 @@ class RAGFusion(Retriever):
         docs = [doc[0] for doc in docs]
         page_contents = self.get_page_contents(docs)
         context = self.get_context(page_contents)
-        return {"question": question, "context": context}
+        return {"question": question, "context": context}, docs
 
 
 class QueryDecompostion(Retriever):
@@ -214,7 +214,7 @@ class QueryDecompostion(Retriever):
             )
             rag_results.append(answer)
         docs_ = [doc for doc, score in reciprocal_rank_fusion(docs)]
-        return rag_results, sub_questions, docs_[:self.k]
+        return rag_results, sub_questions, docs_[: self.k]
 
     # Wrap the retrieval and RAG process in a RunnableLambda for integration into a chain
 
@@ -238,9 +238,8 @@ class StepBack(Retriever):
             - "step_back_context": The context derived from the documents retrieved for the generated queries.
             - "question": The original question.
         """
-        normal_context = self.get_context(
-            self.get_page_contents(self._get_relevant_documents(question))
-        )
+        normal_docs = self._get_relevant_documents(question)
+        normal_context = self.get_context(self.get_page_contents(normal_docs))
         queries = self.generate_queries(question)
         step_back_docs = vars.qdrant_client.retriever_map(queries)
         step_back_docs = self.flatten_docs(step_back_docs)
@@ -254,7 +253,7 @@ class StepBack(Retriever):
             "step_back_context": step_back_context,
             "question": question,
         }
-        return input_vars
+        return input_vars, normal_docs.extend(step_back_docs)
 
 
 class HyDE(Retriever):
