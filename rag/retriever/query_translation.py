@@ -87,7 +87,7 @@ class Retriever(BaseRetriever):
         docs = self._get_relevant_documents(question)
         page_contents = self.get_page_contents(docs)
         context = self.get_context(page_contents)
-        return {"question": question, "context": context}, docs
+        return {"question": question, "context": context}, page_contents
 
     def flatten_docs(self, docs):
         """Flatten documents' array from retrieved documents
@@ -256,7 +256,7 @@ class StepBack(Retriever):
         }
         docs = self.get_page_contents(normal_docs)
         docs.extend(docs_content)
-        
+
         return input_vars, docs
 
 

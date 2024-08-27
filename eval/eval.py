@@ -13,6 +13,7 @@ import ast
 from deepeval.test_case import LLMTestCase
 from logs.loging import logger
 from rag.retriever.query_translation import (
+    HyDE,
     MultiQuery,
     Retriever,
     RAGFusion,
@@ -33,8 +34,8 @@ faithfulness = FaithfulnessMetric(model=model, include_reason=False)
 import csv
 
 # Đường dẫn đến file CSV
-file_path = "data/covidqa_step_back.csv"
-retriever = StepBack(vars.retriever_llm)
+file_path = "data/covidqa_hyde.csv"
+retriever = HyDE(vars.retriever_llm)
 generate = Generate(vars.retriever_llm, retriever)
 
 write_to_csv(file_path, generate)
