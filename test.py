@@ -1,7 +1,7 @@
 
 from langchain_groq import ChatGroq
 from rag.config.config import Config
-from rag.retriever.query_translation import Retriever
+from rag.retriever.query_translation import Bm25, Retriever
 from rag.rag_strategy.adaptive_rag import AdaptiveRag 
 from init import vars
 config = Config()
@@ -10,7 +10,6 @@ llm = ChatGroq(
             model="llama-3.1-70b-versatile",
             temperature=0.1,
         )
-rag = AdaptiveRag(llm, retriever= Retriever(llm))
-rag.build_graph()
+retriever= Bm25(llm)
 
-print(rag.run({"question": "What is the weather today in Hanoi?"}))
+print(retriever.get_relevant_documents("What is the weather today in Hanoi?"))

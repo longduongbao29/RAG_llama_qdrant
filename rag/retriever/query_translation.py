@@ -9,6 +9,7 @@ from langchain.prompts import ChatPromptTemplate
 from typing import List
 from logs.loging import logger
 from rag.schemas.schemas import ModeEnum
+from langchain_community.retrievers import BM25Retriever
 
 
 class Retriever(BaseRetriever):
@@ -279,12 +280,15 @@ class HyDE(Retriever):
 
 
 class Bm25(Retriever):
-    def _get_relevant_documents(self, question):
-        from langchain_community.retrievers import BM25Retriever
+    retriever: BaseRetriever = None
 
-        retriever = BM25Retriever.from_documents(self.get_documents())
-        self.docs = retriever.invoke(question)
-        return self.docs
+    def __init__(self, model) -> None:
+        super().__init__(model)
+        self.retriever = BM25Retriever.from_documents(self.get_documents())
+
+    def _get_relevant_documents(self, question):
+        self.docs = self.retriever.invoke(question)
+        return self.docs[: self.k]
 
     def get_documents(self):
         client = vars.qdrant_client.client
@@ -292,7 +296,7 @@ class Bm25(Retriever):
         docs = []
         for collection in collections:
             collection_name = collection.name
-            page_size = 100
+            page_size = 2000
             offset = 0
             while True:
                 response = client.scroll(
@@ -300,18 +304,19 @@ class Bm25(Retriever):
                     limit=page_size,
                     offset=offset,
                 )
+
                 for r in response[0]:
                     data = r.payload
                     doc = Document(
                         metadata=data["metadata"], page_content=data["page_content"]
                     )
+
                     docs.append(doc)
-                # Nếu số lượng documents trả về ít hơn page_size thì dừng lại
+                print(len(response[0]))
                 if len(response[0]) < page_size:
                     break
-
-                # Tăng offset cho lần lặp tiếp theo
                 offset += page_size
+
         return docs
 
 
