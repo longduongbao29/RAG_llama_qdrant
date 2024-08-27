@@ -33,8 +33,8 @@ faithfulness = FaithfulnessMetric(model=model, include_reason=False)
 import csv
 
 # Đường dẫn đến file CSV
-file_path = "data/covidqa_recursive_decomposition.csv"
-retriever = QueryDecompostion(vars.retriever_llm, mode="recursive")
+file_path = "data/covidqa_step_back.csv"
+retriever = StepBack(vars.retriever_llm)
 generate = Generate(vars.retriever_llm, retriever)
 
 write_to_csv(file_path, generate)
