@@ -1,14 +1,21 @@
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
-from torch import embedding
-from qdrant.client import Qdrant_Client
+import json
 from init import vars
 from sklearn.cluster._kmeans import KMeans
 from langchain_core.language_models import BaseLanguageModel
 from rag.rag_strategy.prompt import drafter_prompt
 import random
+from typing import TypedDict, Annotated, Optional
 from langchain_core.output_parsers import StrOutputParser
+import asyncio
+class ResponseRationale(TypedDict):
+        '''An answer to the user question along with justification for the answer.'''
 
+        response: str
+        rationale: Annotated[
+            Optional[str], None, "A rationale for the response."
+        ]
 
 class SpeculativeRag:
     def __init__(
@@ -68,6 +75,19 @@ class SpeculativeRag:
 
         return subsets
 
-    def drafter_generate(self, query, subset):
-        chain = drafter_prompt | self.drafter_llm | StrOutputParser()
-        return chain.invoke({"instruction": query, "evidence": subset})
+    def self_consistency_score(self, draft:str, rationale:str, question:str):
+        pass
+
+    async def drafter_generate(self, query, subset):
+        chain = drafter_prompt | self.drafter_llm.with_structured_output(ResponseRationale) 
+        llm_gen = await chain.ainvoke({"instruction": query, "evidence": subset})
+        return llm_gen
+
+    async def run(self, query):
+        subsets = self.get_subset(query)
+        drafts = []
+        drafts_gen = await asyncio.gather(
+            *(self.drafter_generate(query, subset) for subset in subsets)
+        )
+        drafts.extend(drafts_gen)
+        return drafts
