@@ -13,3 +13,5 @@ PyMuPDF
 gradio
 rank_bm25
 langgraph
+bm25
+scikit-learn

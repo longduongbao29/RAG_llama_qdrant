@@ -29,6 +29,7 @@ model = Gemma2()
 contextual_precision = ContextualPrecisionMetric(model=model, include_reason=False)
 contextual_recall = ContextualRecallMetric(model=model, include_reason=False)
 contextual_relevancy = ContextualRelevancyMetric(model=model, include_reason=False)
+
 answer_relevancy = AnswerRelevancyMetric(model=model, include_reason=False)
 faithfulness = FaithfulnessMetric(model=model, include_reason=False)
 

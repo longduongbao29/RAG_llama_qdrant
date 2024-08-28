@@ -51,7 +51,7 @@ system = """You are an expert at routing a user question to a vectorstore or web
 The vectorstore contains documents related to topics: {topics}
 Use the vectorstore for questions on these topics. Otherwise, use web-search."""
 route_prompt = ChatPromptTemplate.from_messages(
-    [   
+    [
         ("system", system),
         ("human", "{question}"),
     ]
@@ -69,8 +69,11 @@ Answer:"""
 
 rag_prompt = ChatPromptTemplate.from_template(template=template)
 
-first_gen_prompt = ChatPromptTemplate.from_messages([
-    ("system", """
+first_gen_prompt = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            """
     You are a helpful assistant with extensive knowledge.
     Answer user queries based on your understanding, chat history, and knowledge base.
     Please avoid answering questions related to the following topics: {topics}.
@@ -79,6 +82,38 @@ first_gen_prompt = ChatPromptTemplate.from_messages([
     Here is the chat history for reference:
     {chat_history}
     Return the answer as follows:
-    """),
-    ("human", "{question}")
-])
+    """,
+        ),
+        ("human", "{question}"),
+    ]
+)
+
+
+drafter_prompt_template = """
+Response to the instruction. Also provide rationale for your response.
+
+Instruction: {instruction}
+
+Evidence: 
+{evidence}
+
+Return a dictionary including both "Response" and "Rationale".
+
+# EXAMPLE:
+## Instruction: Which actress/singer starred as Doralee Rhodes in the 1980 film, "Nine to Five"?
+## Evidence:
+[1] Diana DeGarmo played the role of Doralee Rhodes in the national tour of "9 to 5", which was launched in Nashville on September 21, 2010. She ended her run as Doralee after the July 2011 Minneapolis tour stop.
+[2] Pippa Winslow as Violet Newstead, Louise Olley as Doralee Rhodes and Leo Sene as Franklin Hart Jr, with Samantha Giffard as Roz, Matthew Chase as Joe and Mark Houston, Rachel Ivy, and Blair Anderson. "9 to 5" will play in the West End at the Savoy Theatre from January 29 to August 31, 2019. The production stars Amber Davies (Judy), ...
+
+Return:
+{{
+    "Response": "Diana DeGarmo",
+    "Rationale": "Diana DeGarmo played the role of Doralee Rhodes in the national tour of '9 to 5', which began in September 2010."
+}}
+
+# END OF EXAMPLE
+
+Please ensure the response is in dictionary format with "Response" and "Rationale" as keys.
+"""
+
+drafter_prompt = ChatPromptTemplate.from_template(template=drafter_prompt_template)
