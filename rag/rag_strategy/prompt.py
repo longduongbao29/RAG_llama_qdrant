@@ -117,3 +117,14 @@ Please ensure the response is in dictionary format with "Response" and "Rational
 """
 
 drafter_prompt = ChatPromptTemplate.from_template(template=drafter_prompt_template)
+
+verifier_prompt_template = """From responses and rationales below, choose which pair of response-rationale is the most suitable for the query:
+
+Response-rationale pairs:
+{pairs}
+
+Question: {query}
+Return:
+"""
+
+verifier_prompt = ChatPromptTemplate.from_template(verifier_prompt_template)

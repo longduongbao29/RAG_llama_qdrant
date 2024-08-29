@@ -1,13 +1,21 @@
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
+from pydantic import Field
 from torch import embedding
 from qdrant.client import Qdrant_Client
 from init import vars
 from sklearn.cluster._kmeans import KMeans
 from langchain_core.language_models import BaseLanguageModel
-from rag.rag_strategy.prompt import drafter_prompt
+from rag.rag_strategy.prompt import drafter_prompt, verifier_prompt
 import random
 from langchain_core.output_parsers import StrOutputParser
+from typing import TypedDict
+import asyncio
+
+
+class ResponseRationale(TypedDict):
+    response: str
+    rationale: str = Field(description="Rationale for the response.")
 
 
 class SpeculativeRag:
@@ -68,6 +76,19 @@ class SpeculativeRag:
 
         return subsets
 
-    def drafter_generate(self, query, subset):
-        chain = drafter_prompt | self.drafter_llm | StrOutputParser()
-        return chain.invoke({"instruction": query, "evidence": subset})
+    async def drafter_generate(self, query, subset):
+        chain = drafter_prompt | self.drafter_llm.with_structured_output(
+            ResponseRationale
+        )
+        return await chain.ainvoke({"instruction": query, "evidence": subset})
+
+    async def run(self, query):
+        subsets = self.get_subset(query)
+        pairs = await asyncio.gather(
+            *[self.drafter_generate(query, subset) for subset in subsets]
+        )
+        print(pairs, "\n\n")
+        chain = verifier_prompt | self.verifier_llm.with_structured_output(
+            ResponseRationale
+        )
+        return chain.invoke({"pairs": pairs, "query": query})
