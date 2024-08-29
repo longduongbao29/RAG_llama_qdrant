@@ -113,7 +113,7 @@ Return:
 
 # END OF EXAMPLE
 
-Please ensure the response is in dictionary format with "Response" and "Rationale" as keys.
+Please return the result as a valid JSON dictionary, without adding any extra text or explanations. Only return the result in JSON format with the requested keys and values.
 """
 
 drafter_prompt = ChatPromptTemplate.from_template(template=drafter_prompt_template)

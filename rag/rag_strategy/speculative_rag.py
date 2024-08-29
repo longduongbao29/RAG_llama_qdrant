@@ -8,6 +8,7 @@ from sklearn.cluster._kmeans import KMeans
 from langchain_core.language_models import BaseLanguageModel
 from rag.rag_strategy.prompt import drafter_prompt, verifier_prompt
 import random
+from typing import TypedDict, Annotated, Optional
 from langchain_core.output_parsers import StrOutputParser
 from typing import TypedDict
 import asyncio
@@ -17,6 +18,10 @@ class ResponseRationale(TypedDict):
     response: str
     rationale: str = Field(description="Rationale for the response.")
 
+        response: str
+        rationale: Annotated[
+            Optional[str], None, "A rationale for the response."
+        ]
 
 class SpeculativeRag:
     def __init__(
