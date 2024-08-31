@@ -5,16 +5,15 @@ from rag.retriever.query_translation import (
     MultipleRetriever,
     get_multiple_retriever,
 )
-# from rag.agent.agent import Agent
+from rag.agent.agent import Agent
 # from rag.retriever.query_translation import Retriever
 from init import vars
 from fastapi import APIRouter
 from fastapi import UploadFile, File
 from rag.extract_documents.text_reader import TextReader
-from logs.loging import logger
+from logs.logging import logger
 from rag.rag_strategy.stragery import get_strategy
 from rag.answer.chatbot_gen import ChatBotGen
-
 
 
 router = APIRouter()
@@ -40,6 +39,7 @@ def retriever(question: Question, mode: RetrieverSchema):
     - List[str]: A list of document that are relevant to the given question.
     """
     try:
+        vars.qdrant_client.get_vectorstores()
         question = question.question
         retriever = MultipleRetriever(
             model=vars.retriever_llm, retriever_methods=get_multiple_retriever(mode.mode)
@@ -52,7 +52,7 @@ def retriever(question: Question, mode: RetrieverSchema):
 
 
 @router.post("/ask")
-async def ask(question: Question, retrieval_schema: RetrieverSchema,strategy_ : StrategyEnum, history):
+async def ask(question: Question, retrieval_schema: RetrieverSchema, history):
     """
     This function generates an answer to a given question using an Agent including search_tool and retriever_tool.
 
@@ -64,24 +64,28 @@ async def ask(question: Question, retrieval_schema: RetrieverSchema,strategy_ : 
     - str: The generated answer to the given question.
     """
     try:
+        vars.qdrant_client.get_vectorstores()
         question = question.question
         retriever = MultipleRetriever(
             model=vars.retriever_llm,
             retriever_methods=get_multiple_retriever(retrieval_schema.mode),
         )
-        strategy = get_strategy(strategy_, vars.retriever_llm, retriever)
-        strategy.build_graph()
+        # strategy = get_strategy(strategy_, vars.retriever_llm, retriever)
+        # strategy.build_graph()
         inputs = {
-            "question": question,
+            "input": question,
             "chat_history": history,
         }
+        
        
-        answer = strategy.run(inputs)
+        # answer = strategy.run(inputs)
+        agent = Agent(vars.tool_use_llm,retriever)
+        output = agent.run(inputs)
  
-        logger.output({"question": question, "answer": answer})
+        logger.output(output)
     except Exception as e:
         return {"message": f"Failed to generate answer: {str(e)}"}
-    return answer
+    return output
 
 
 @router.post("/upload")
@@ -102,7 +106,7 @@ async def upload_to_database(file: UploadFile = File(...)):
         with open(file_path, "wb") as f:
             f.write(contents)
         if ".txt" in file.filename:
-            text_reader.text = contents.decode("utf-8")
+            text_reader.readtxt()
         else:
             text_reader.readpdf()
         topic = text_reader.get_topics(vars.retriever_llm)

@@ -4,7 +4,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.pydantic_v1 import Field
 from langchain_core.output_parsers import StrOutputParser
 from rag.rag_strategy.rag import Rag
-from logs.loging import logger
+from logs.logging import logger
 system = """You are a helpful assistant. From human input, you make a decision to reply or retrieve information.
 Give a binary score 'yes' or 'no'. Yes' means that you decide to reply."""
 route_prompt = ChatPromptTemplate.from_messages(

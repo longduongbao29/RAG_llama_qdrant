@@ -7,7 +7,7 @@ from langchain_core.retrievers import BaseRetriever, Document
 from langchain_core.language_models.base import BaseLanguageModel
 from langchain.prompts import ChatPromptTemplate
 from typing import List
-from logs.loging import logger
+from logs.logging import logger
 from rag.schemas.schemas import ModeEnum
 from langchain_community.retrievers import BM25Retriever
 
@@ -176,7 +176,7 @@ class RAGFusion(Retriever):
         return {"question": question, "context": context}, docs
 
 
-class QueryDecompostion(Retriever):
+class QueryDecomposition(Retriever):
     decomposition_mode: str = "recursive"
 
     def __init__(self, model, mode) -> None:
@@ -312,7 +312,6 @@ class Bm25(Retriever):
                     )
 
                     docs.append(doc)
-                print(len(response[0]))
                 if len(response[0]) < page_size:
                     break
                 offset += page_size
@@ -351,23 +350,33 @@ def reciprocal_rank_fusion(results, k=60):
     return reranked_results
 
 
+default_retriever = Retriever(vars.retriever_llm)
+multi_query_retriever = MultiQuery(vars.retriever_llm)
+rag_fusion_retriever = RAGFusion(vars.retriever_llm)
+query_decomposition_retriever = QueryDecomposition(vars.retriever_llm, mode="recursive")
+step_back_retriever = StepBack(vars.retriever_llm)
+hyde_retriever = HyDE(vars.retriever_llm)
+bm25_retriever = Bm25(vars.retriever_llm)
+
+
 def get_retriever(mode: ModeEnum) -> Retriever:
     """Get retriever from mode"""
-    retriever_ = Retriever(vars.retriever_llm)
+    retriever_ = default_retriever
     if mode == ModeEnum.multi_query:
-        retriever_ = MultiQuery(vars.retriever_llm)
+        retriever_ = multi_query_retriever
     elif mode == ModeEnum.rag_fusion:
-        retriever_ = RAGFusion(vars.retriever_llm)
+        retriever_ = rag_fusion_retriever
     elif mode == ModeEnum.recursive_decomposition:
-        retriever_ = QueryDecompostion(vars.retriever_llm, mode="recursive")
+        retriever_ = query_decomposition_retriever
     elif mode == ModeEnum.individual_decomposition:
-        retriever_ = QueryDecompostion(vars.retriever_llm, mode="individual")
+        query_decomposition_retriever.decomposition_mode = "individual"
+        retriever_ = query_decomposition_retriever
     elif mode == ModeEnum.step_back:
-        retriever_ = StepBack(vars.retriever_llm)
+        retriever_ = step_back_retriever
     elif mode == ModeEnum.hyde:
-        retriever_ = HyDE(vars.retriever_llm)
+        retriever_ = hyde_retriever
     elif mode == ModeEnum.bm25:
-        retriever_ = Bm25(vars.retriever_llm)
+        retriever_ = bm25_retriever
     return retriever_
 
 

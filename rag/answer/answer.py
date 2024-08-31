@@ -3,7 +3,7 @@ from rag.retriever.query_translation import (
     Retriever,
     MultiQuery,
     RAGFusion,
-    QueryDecompostion,
+    QueryDecomposition,
     StepBack,
     HyDE,
 )
@@ -31,7 +31,7 @@ class Generate:
         self.chain = self.prompt | self.llm | StrOutputParser()
 
     def run(self, question: str):
-        if isinstance(self.retriever, QueryDecompostion):
+        if isinstance(self.retriever, QueryDecomposition):
             response, docs = self.decomposition_generate(question)
         else:
             response, docs = self.default_generate(question)

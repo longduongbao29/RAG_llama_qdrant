@@ -11,14 +11,14 @@ from deepeval.metrics import (
 from eval.preprocess import write_to_csv
 import ast
 from deepeval.test_case import LLMTestCase
-from logs.loging import logger
+from logs.logging import logger
 from rag.retriever.query_translation import (
     Bm25,
     HyDE,
     MultiQuery,
     Retriever,
     RAGFusion,
-    QueryDecompostion,
+    QueryDecomposition,
     StepBack,
 )
 from rag.answer.answer import Generate

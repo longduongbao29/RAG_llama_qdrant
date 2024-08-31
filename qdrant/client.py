@@ -5,7 +5,7 @@ from qdrant_client.http.models import Distance, VectorParams
 from rag.extract_documents.text_reader import TextReader
 from langchain_text_splitters import CharacterTextSplitter
 from rag.config.config import Config
-from logs.loging import logger
+from logs.logging import logger
 
 config = Config()
 
@@ -25,6 +25,11 @@ class Qdrant_Client:
             api_key=self.api_key,
         )
         self.text_splitter = CharacterTextSplitter(chunk_size=100, chunk_overlap=0)
+        self.vectorstores = []
+        self.get_vectorstores()
+
+    def get_vectorstores(self):
+        self.vectorstores = []
         try:
             collections = self.client.get_collections().collections
             for collection in collections:
@@ -34,10 +39,8 @@ class Qdrant_Client:
                     embedding=self.embeddings,
                 )
                 self.vectorstores.append(vtst)
-            print(f"Initialized with {len(self.vectorstores)} collections")
         except Exception as e:
             print("Exception: ", e)
-
     def create_collection(self, colection_name):
         """Create Qdrant collection"""
         new_vtstr = QdrantVectorStore
@@ -53,8 +56,8 @@ class Qdrant_Client:
             )
             self.vectorstores.append(new_vtstr)
         except Exception as e:
-            print(f"Failed to create collection: {str(e)}")
-            print("Init from existing collection")
+            logger.info(f"Failed to create collection: {str(e)}")
+            logger.info("Init from existing collection")
             new_vtstr = QdrantVectorStore.from_existing_collection(
                 url=self.url,
                 api_key=self.api_key,

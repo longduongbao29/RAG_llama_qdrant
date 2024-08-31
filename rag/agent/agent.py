@@ -3,19 +3,17 @@ from langchain.agents import create_tool_calling_agent
 from langchain.agents import AgentExecutor
 from langchain.prompts import ChatPromptTemplate
 from langchain.tools.retriever import create_retriever_tool
-from logs.loging import logger
-
+from logs.logging import logger
+from init import vars
 
 agent_prompt = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            """You are an assistant that has access to the following 2 tools: 
-            - search_from_database: to search for information from database.
-            - tavily_search_results_json: to search for information online.
-            Use search_from_database when question involves to the topics written in tool's description.
-            Otherwise use tavily_search_results_json.
-            Think and decide which tool to use, then answer given question.""",
+            """For casual questions such as greetings or small talk, respond normally without using any tools. 
+            For queries that require information retrieval from a database, use the `retrieve_from_database` tool to fetch relevant documents.
+            If the query requires searching the internet, use the `tavily_search_results_json` tool to obtain results.
+            Always determine the nature of the query before deciding whether to use a tool or respond directly.""",
         ),
         ("placeholder", "{chat_history}"),
         ("human", "{input}"),
@@ -40,7 +38,8 @@ class Agent:
             agent=self.agent, tools=self.tools, verbose=True
         )
 
-    def update_description_retriever_tool(self, client):
+    def update_description_retriever_tool(self):
+        client =  vars.qdrant_client.client
         collections = client.get_collections().collections
         collection_names = [collection.name for collection in collections]
         self.retriever_tool.description = f"""Useful for when you need to answer questions about following topics: {", ".join(collection_names)}
@@ -57,4 +56,5 @@ For any questions about topics above, you must use this tool!"""
         Returns:
         str: The result of executing the agent. This could be the output of a tool, a final answer, or an error message.
         """
+        self.update_description_retriever_tool()
         return self.agent_executor.invoke(input)

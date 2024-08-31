@@ -46,7 +46,7 @@ class AdaptiveRag(Rag):
         
     
     def run(self, inputs:dict):
-        from logs.loging import logger
+        from logs.logging import logger
         inputs["topics"] = self.get_retriever_topics()
         logger.output(inputs)
         return super().run(inputs)

@@ -1,6 +1,6 @@
 from langgraph.graph import END, StateGraph, START
 from rag.rag_strategy.rag import Rag, GraphState
-from logs.loging import logger
+from logs.logging import logger
 class CRag(Rag):
     def decide_to_generate(self,state):
         """

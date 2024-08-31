@@ -18,10 +18,6 @@ class ResponseRationale(TypedDict):
     response: str
     rationale: str = Field(description="Rationale for the response.")
 
-        response: str
-        rationale: Annotated[
-            Optional[str], None, "A rationale for the response."
-        ]
 
 class SpeculativeRag:
     def __init__(

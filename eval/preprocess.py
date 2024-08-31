@@ -3,7 +3,7 @@ import pandas as pd
 # import sys
 # import os
 # sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from logs.loging import logger
+from logs.logging import logger
 from init import vars
 
 # Download dataset

@@ -1,6 +1,6 @@
 from langchain_core.documents import Document
 import fitz
-from logs.loging import logger
+from logs.logging import logger
 import re
 from langchain_core.output_parsers import StrOutputParser
 from langchain.prompts import ChatPromptTemplate
@@ -30,7 +30,9 @@ class TextReader:
         chain = prompt | llm | StrOutputParser()
         topic = chain.invoke({"document": self.text})
         return topic
-
+    def readtxt(self):
+        with open(self.file_path) as f:
+            self.text = f.read() 
     def readpdf(self):
         """
         Reads a PDF file and extracts text blocks from it.

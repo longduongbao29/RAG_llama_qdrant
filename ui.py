@@ -44,11 +44,11 @@ async def ask_question(history, question, mode, strategy):
         response = await api.ask(
             question=Question(question=question),
             retrieval_schema=RetrieverSchema(mode=mode),
-            strategy_=StrategyEnum(value=strategy),
+            # strategy_=StrategyEnum(value=strategy),
             history=format_history(history),
         )
 
-        answer = response
+        answer = response["output"]
         # Append the new question and answer to the chat history
         history.append((question, answer))
     except Exception as e:
@@ -82,25 +82,25 @@ def create_app():
                         value="default",
                         multiselect=True,
                     )
-                    strategy = gr.Dropdown(
-                        label="Select Strategy",
-                        choices=[st.value for st in StrategyEnum],
-                        value="c-rag",
-                    )
+                    # strategy = gr.Dropdown(
+                    #     label="Rag Strategy",
+                    #     choices=[st.value for st in StrategyEnum],
+                    #     value="default",
+                    # )
 
                 clear_button = gr.Button("❌Clear Chat")
 
                 # The `state` argument keeps track of the chat history
                 send_button.click(
                     ask_question,
-                    inputs=[chatbot, question_input, mode_input, strategy],
+                    inputs=[chatbot, question_input, mode_input],
                     outputs=[chatbot, question_input],
                 )
                 clear_button.click(clear_chat, inputs=chatbot, outputs=chatbot)
             with gr.Column(scale=1):
                 gr.Markdown("## Upload Document")
                 file_input = gr.File(
-                    label="Upload your document", file_types=[".pdf", ".txt", ".docx"]
+                    label="Upload your document", file_types=[".pdf", ".txt"]
                 )
                 upload_button = gr.Button("⬆️ Upload ⬆️")
                 upload_output = gr.Textbox(label="Upload Status")

@@ -8,8 +8,11 @@ from langchain.schema import Document
 from langchain_core.retrievers import BaseRetriever
 from langgraph.graph.state import CompiledStateGraph
 from langchain_core.output_parsers import StrOutputParser
-from logs.loging import logger
+from logs.logging import logger
 from langchain_community.tools.tavily_search import TavilySearchResults
+from langgraph.graph import END, StateGraph, START
+
+
 class GraphState(TypedDict):
     """
     Represents the state of our graph.
@@ -279,10 +282,30 @@ class Rag():
         collections = vars.qdrant_client.client.get_collections().collections
         collection_names = [collection.name for collection in collections]
         return ", ".join(collection_names)
-    @abstractmethod
+ 
     def build_graph(self) -> None:
         """Build graph 
         """
+        workflow = StateGraph(GraphState)
+
+        # Define the nodes
+        workflow.add_node("web_search", self.web_search)  # web search
+        workflow.add_node("retrieve", self.retrieve)  # retrieve
+        workflow.add_node("generate", self.generate)  # generatae
+
+        # Build graph
+        workflow.add_conditional_edges(
+            START,
+            self.route_question,
+            {
+                "web_search": "web_search",
+                "vectorstore": "retrieve",
+            },
+        )
+        workflow.add_edge("web_search", "generate")
+        workflow.add_edge("retrieve", "generate")
+        workflow.add_edge("generate", END)
+        self.app = workflow.compile()
     def run(self, inputs:dict):
         inputs["topics"] = self.get_retriever_topics()
         grade, answer = self.first_generate(inputs)
