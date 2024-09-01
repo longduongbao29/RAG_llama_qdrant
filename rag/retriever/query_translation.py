@@ -1,4 +1,3 @@
-from torch import le
 import rag.retriever.templates as templates
 from langchain_core.output_parsers import StrOutputParser
 from langchain.load import dumps, loads

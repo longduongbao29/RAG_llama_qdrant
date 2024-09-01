@@ -1,6 +1,5 @@
 fastapi
 uvicorn
-torch
 langchain
 langchain_community
 qdrant_client
