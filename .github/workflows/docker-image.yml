@@ -16,7 +16,5 @@ jobs:
     - uses: actions/checkout@v4
     - name: Build and Run the Docker image
       run: | 
-        sudo apt-get update
-        sudo apt-get install docker-compose-plugin
         docker build -t rag_system .
-        docker-compose up
+        docker run -p 1234:1234 -p 1235:1235 --name rag-system rag_system
