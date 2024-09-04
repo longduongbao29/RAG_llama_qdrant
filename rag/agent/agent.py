@@ -10,10 +10,13 @@ agent_prompt = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            """For casual questions such as greetings or small talk, respond normally without using any tools. 
-            For queries that require information retrieval from a database, use the `retrieve_from_database` tool to fetch relevant documents.
-            If the query requires searching the internet, use the `tavily_search_results_json` tool to obtain results.
-            Always determine the nature of the query before deciding whether to use a tool or respond directly.""",
+           """
+You are a helpful assistant have access to two tools:
+- Use `retrieve_from_database` tool first to search for relevant information related to the query. If a suitable answer is found within the retrieved documents, respond directly.
+- If the documents do not contain the necessary information, use `tavily_search_results_json` tool to search the internet for additional information.
+
+Always attempt to retrieve information using `retrieve_from_database` first, and only use `tavily_search_results_json` if the required answer is not found in the documents."""
+
         ),
         ("placeholder", "{chat_history}"),
         ("human", "{input}"),
@@ -29,7 +32,7 @@ class Agent:
         self.retriever = retriever
         self.retriever_tool = create_retriever_tool(
             retriever,
-            "search_from_database",
+            "retrieve_from_database",
             "",
         )
         self.tools = [self.retriever_tool, self.search_tool]

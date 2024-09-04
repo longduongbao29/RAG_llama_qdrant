@@ -54,7 +54,6 @@ class Qdrant_Client:
                 collection_name=colection_name,
                 embedding=self.embeddings,
             )
-            self.vectorstores.append(new_vtstr)
         except Exception as e:
             logger.info(f"Failed to create collection: {str(e)}")
             logger.info("Init from existing collection")
@@ -64,8 +63,6 @@ class Qdrant_Client:
                 embedding=self.embeddings,
                 collection_name=colection_name,
             )
-            self.vectorstores.append()
-
         return new_vtstr
 
     def retriever(self, text: str, k=5):

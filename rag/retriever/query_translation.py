@@ -283,7 +283,7 @@ class Bm25(Retriever):
 
     def __init__(self, model) -> None:
         super().__init__(model)
-        self.retriever = BM25Retriever.from_documents(self.get_documents())
+        # self.retriever = BM25Retriever.from_documents(self.get_documents())
 
     def _get_relevant_documents(self, question):
         self.docs = self.retriever.invoke(question)

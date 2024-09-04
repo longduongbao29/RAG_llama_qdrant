@@ -11,7 +11,7 @@ prompt = ChatPromptTemplate.from_template(
     """From input document, find the topic of document. Topic return needs to be specified, short.
                                           Document: 
                                           {document}
-                                          Output (topic 1-5 word):
+                                          Output (topic 1-5 lowercase word):
                                           """
 )
 
