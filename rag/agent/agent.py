@@ -1,4 +1,5 @@
 from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain_community.tools import DuckDuckGoSearchRun
 from langchain.agents import create_tool_calling_agent
 from langchain.agents import AgentExecutor
 from langchain.prompts import ChatPromptTemplate
@@ -13,12 +14,12 @@ agent_prompt = ChatPromptTemplate.from_messages(
            """
 You are a helpful assistant have access to two tools:
 - Use `retrieve_from_database` tool first to search for relevant information related to the query. If a suitable answer is found within the retrieved documents, respond directly.
-- If the documents do not contain the necessary information, use `tavily_search_results_json` tool to search the internet for additional information.
+- If the documents do not contain the necessary information, use search tool to search the internet for additional information.
 
-Always attempt to retrieve information using `retrieve_from_database` first, and only use `tavily_search_results_json` if the required answer is not found in the documents."""
+Always attempt to retrieve information using `retrieve_from_database` first, and only use search if the required answer is not found in the documents."""
 
         ),
-        ("placeholder", "{chat_history}"),
+        # ("placeholder", "{chat_history}"),
         ("human", "{input}"),
         ("placeholder", "{agent_scratchpad}"),
     ]
@@ -27,7 +28,7 @@ Always attempt to retrieve information using `retrieve_from_database` first, and
 
 class Agent:
     def __init__(self, llm, retriever) -> None:
-        self.search_tool = TavilySearchResults()
+        self.search_tool = DuckDuckGoSearchRun(verbose=True)
         self.llm = llm
         self.retriever = retriever
         self.retriever_tool = create_retriever_tool(

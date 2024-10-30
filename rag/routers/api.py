@@ -52,7 +52,7 @@ def retriever(question: Question, mode: RetrieverSchema):
 
 
 @router.post("/ask")
-async def ask(question: Question, retrieval_schema: RetrieverSchema, history):
+async def ask(question: Question, retrieval_schema: RetrieverSchema, history = None):
     """
     This function generates an answer to a given question using an Agent including search_tool and retriever_tool.
 
@@ -74,7 +74,7 @@ async def ask(question: Question, retrieval_schema: RetrieverSchema, history):
         # strategy.build_graph()
         inputs = {
             "input": question,
-            "chat_history": history,
+            # "chat_history": history,
         }
         
        

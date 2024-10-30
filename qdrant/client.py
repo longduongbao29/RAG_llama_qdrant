@@ -32,6 +32,7 @@ class Qdrant_Client:
         self.vectorstores = []
         try:
             collections = self.client.get_collections().collections
+            print(collections)
             for collection in collections:
                 vtst = QdrantVectorStore(
                     client=self.client,

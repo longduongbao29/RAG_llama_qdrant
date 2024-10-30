@@ -11,7 +11,7 @@ from langchain_core.output_parsers import StrOutputParser
 from logs.logging import logger
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langgraph.graph import END, StateGraph, START
-
+from langchain_community.tools import DuckDuckGoSearchRun
 
 class GraphState(TypedDict):
     """
@@ -59,7 +59,7 @@ class RouteQuery(BaseModel):
 
 class Rag():
     app: CompiledStateGraph= None
-    web_search_tool = TavilySearchResults()
+    web_search_tool = DuckDuckGoSearchRun()
     def __init__(self, llm: BaseLanguageModel, retriever_: BaseRetriever):
         self.llm = llm
         self.retriever_ = retriever_
